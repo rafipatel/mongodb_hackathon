@@ -19,15 +19,134 @@
     --ok: #7ee8b2;
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink);
     font: 14px/1.5 -apple-system, "SF Pro Text", "Inter", system-ui, sans-serif;
-    min-height: 100vh;
+    min-height: 100vh; overflow-x: hidden;
   }
   a { color: var(--accent-2); }
+
+  /* ----- Landing hero -------------------------------------------------- */
+  .hero {
+    position: relative; height: 100vh; min-height: 640px; width: 100%;
+    overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    background:
+      radial-gradient(1200px 600px at 20% 20%, rgba(126,232,178,0.10), transparent 60%),
+      radial-gradient(900px 520px at 80% 70%, rgba(90,169,255,0.12), transparent 60%),
+      radial-gradient(900px 520px at 50% 100%, rgba(255,122,196,0.08), transparent 60%),
+      linear-gradient(180deg, #07091a 0%, #090d22 60%, #0b1020 100%);
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,0.6), transparent 60%),
+      radial-gradient(1.5px 1.5px at 80% 35%, rgba(255,255,255,0.5), transparent 60%),
+      radial-gradient(1.5px 1.5px at 45% 80%, rgba(255,255,255,0.5), transparent 60%),
+      radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.4), transparent 60%),
+      radial-gradient(1px 1px at 25% 70%, rgba(255,255,255,0.45), transparent 60%),
+      radial-gradient(1.2px 1.2px at 60% 20%, rgba(255,255,255,0.5), transparent 60%);
+    animation: drift 30s linear infinite;
+    opacity: 0.55;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(180deg, transparent 70%, var(--bg) 100%);
+  }
+  @keyframes drift {
+    0%   { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-40px, -20px, 0); }
+  }
+
+  .hero-ecg {
+    position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%);
+    width: 100%; height: 160px; opacity: 0.35; pointer-events: none;
+  }
+  .hero-ecg path { stroke-dasharray: 2200; stroke-dashoffset: 2200;
+    animation: ecgSweep 5.5s linear infinite; }
+  @keyframes ecgSweep {
+    0%   { stroke-dashoffset: 2200; }
+    60%  { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -2200; }
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 0 24px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; margin-bottom: 22px;
+    background: rgba(126,232,178,0.08); border: 1px solid rgba(126,232,178,0.3);
+    border-radius: 999px; color: var(--accent); font-size: 12px; letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  .hero-badge .live-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+    box-shadow: 0 0 0 0 rgba(126,232,178,0.8);
+    animation: pulseDot 2s ease-out infinite;
+  }
+  @keyframes pulseDot {
+    0%   { box-shadow: 0 0 0 0 rgba(126,232,178,0.7); }
+    70%  { box-shadow: 0 0 0 12px rgba(126,232,178,0); }
+    100% { box-shadow: 0 0 0 0 rgba(126,232,178,0); }
+  }
+
+  .hero-title {
+    font-size: clamp(64px, 12vw, 168px); line-height: 0.95; margin: 0;
+    font-weight: 700; letter-spacing: -0.04em;
+    background: linear-gradient(135deg, #eaf0ff 0%, #7ee8b2 45%, #5aa9ff 80%, #ff7ac4 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent; -webkit-text-fill-color: transparent;
+    animation: shimmer 8s ease-in-out infinite;
+    text-shadow: 0 0 80px rgba(126,232,178,0.15);
+  }
+  @keyframes shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+  .hero-tagline {
+    margin-top: 18px; color: #b6c4eb; font-size: clamp(16px, 2vw, 22px);
+    letter-spacing: 0.2px;
+  }
+  .hero-tagline strong { color: var(--ink); font-weight: 600; }
+  .hero-stack {
+    margin-top: 28px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+    color: var(--muted); font-size: 12px; letter-spacing: 0.5px;
+  }
+  .hero-stack span {
+    padding: 6px 12px; border-radius: 999px;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  }
+  .hero-scroll {
+    position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+    z-index: 2; color: var(--muted); font-size: 12px; letter-spacing: 1.2px;
+    text-transform: uppercase; text-decoration: none;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .hero-scroll .arrow {
+    width: 18px; height: 18px; border-right: 2px solid var(--muted);
+    border-bottom: 2px solid var(--muted); transform: rotate(45deg);
+    animation: arrowBounce 2s ease-in-out infinite;
+  }
+  .hero-scroll:hover { color: var(--ink); }
+  .hero-scroll:hover .arrow { border-color: var(--accent); }
+  @keyframes arrowBounce {
+    0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.6; }
+    50%      { transform: rotate(45deg) translate(4px, 4px); opacity: 1; }
+  }
+  .hero-compliance {
+    position: absolute; top: 28px; left: 50%; transform: translateX(-50%);
+    z-index: 2; padding: 6px 14px; border-radius: 999px;
+    background: rgba(32,23,50,0.7); border: 1px solid #3d2a5e; color: #d6c9ff;
+    font-size: 11px; letter-spacing: 0.3px;
+    backdrop-filter: blur(6px);
+  }
+
+  /* ----- Dashboard header (below hero) --------------------------------- */
   header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 16px 24px; border-bottom: 1px solid var(--line);
-    background: linear-gradient(180deg, #0d1530 0%, #0b1020 100%);
+    background: rgba(13,21,48,0.82); backdrop-filter: blur(10px);
     position: sticky; top: 0; z-index: 10;
   }
   header .brand { display: flex; align-items: center; gap: 12px; }
@@ -151,11 +270,194 @@
   footer {
     padding: 16px 24px 24px; color: var(--muted); font-size: 12px; text-align: center;
   }
+
+  /* ----- Voice room (LiveKit) ----------------------------------------- */
+  .voice-card { position: relative; overflow: hidden; }
+  .voice-card.live {
+    border-color: rgba(126,232,178,0.4);
+    box-shadow: 0 0 22px rgba(126,232,178,0.18);
+  }
+  .voice-state {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; letter-spacing: 0.4px; color: var(--muted);
+  }
+  .voice-state .sdot {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--muted);
+  }
+  .voice-state.connecting .sdot { background: var(--warn); animation: pulseDot 1.4s ease-out infinite; }
+  .voice-state.live .sdot { background: var(--accent); animation: pulseDot 1.6s ease-out infinite; }
+  .voice-state.speaking .sdot { background: var(--accent-2); animation: pulseDot 0.9s ease-out infinite; }
+  .voice-state.error .sdot { background: #ff7a7a; }
+
+  .conv-feed {
+    margin-top: 12px; max-height: 240px; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 8px;
+    padding: 4px;
+  }
+  .conv-turn {
+    padding: 10px 12px; border-radius: 12px; max-width: 92%;
+    border: 1px solid var(--line); background: #0d1632; font-size: 13px;
+    animation: fadeIn 250ms ease-out;
+  }
+  .conv-turn.user { align-self: flex-end;
+    background: rgba(90,169,255,0.10); border-color: rgba(90,169,255,0.35); }
+  .conv-turn.agent { align-self: flex-start;
+    background: rgba(126,232,178,0.08); border-color: rgba(126,232,178,0.30); }
+  .conv-turn.interim { opacity: 0.7; font-style: italic; }
+  .conv-turn .who {
+    font-size: 10px; letter-spacing: 0.8px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 2px;
+  }
+  @keyframes fadeIn {
+    0%   { opacity: 0; transform: translateY(4px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .level-bar {
+    position: relative; height: 4px; margin-top: 10px;
+    background: var(--panel-hi); border-radius: 2px; overflow: hidden;
+  }
+  .level-bar::after {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width 120ms ease;
+  }
+  .level-bar[data-level="1"]::after { width: 10%; }
+  .level-bar[data-level="2"]::after { width: 25%; }
+  .level-bar[data-level="3"]::after { width: 45%; }
+  .level-bar[data-level="4"]::after { width: 70%; }
+  .level-bar[data-level="5"]::after { width: 100%; }
+
+  button.primary-cta {
+    background: linear-gradient(135deg, #7ee8b2, #5aa9ff);
+    color: #08112b; font-weight: 700; letter-spacing: 0.2px;
+    padding: 10px 16px; border-radius: 12px;
+    box-shadow: 0 0 24px rgba(126,232,178,0.25);
+  }
+  button.primary-cta:hover { filter: brightness(1.08); }
+  button.danger { background: #3c1432; color: #ff7ac4; border: 1px solid #7a2e65; }
+
+  .hero-cta {
+    display: inline-flex; margin-top: 22px; gap: 10px;
+  }
+  .hero-cta .hero-btn {
+    padding: 12px 22px; border-radius: 14px; font-size: 14px; font-weight: 600;
+    cursor: pointer; border: 0; letter-spacing: 0.2px;
+    background: linear-gradient(135deg, #7ee8b2, #5aa9ff);
+    color: #08112b;
+    box-shadow: 0 10px 40px rgba(126,232,178,0.25);
+  }
+  .hero-cta .hero-btn.secondary {
+    background: rgba(255,255,255,0.05); color: var(--ink);
+    border: 1px solid rgba(255,255,255,0.15); box-shadow: none;
+  }
+  .hero-cta .hero-btn:hover { transform: translateY(-1px); filter: brightness(1.06); }
+
+  /* ----- Notifications feed ------------------------------------------- */
+  .notify-card { position: relative; }
+  .notify-card h2 .count-badge {
+    display: inline-block; margin-left: 8px;
+    padding: 2px 8px; border-radius: 999px; font-size: 11px;
+    background: rgba(126,232,178,0.1); color: var(--accent);
+    border: 1px solid rgba(126,232,178,0.3);
+  }
+  .notify-row {
+    display: grid; grid-template-columns: auto 1fr auto; gap: 10px;
+    align-items: start;
+    padding: 10px 12px; border-radius: 10px;
+    border: 1px solid var(--line); background: #0d1632;
+    margin-bottom: 8px;
+    animation: slideIn 400ms ease-out;
+  }
+  .notify-row.new {
+    border-color: rgba(126,232,178,0.4);
+    box-shadow: 0 0 14px rgba(126,232,178,0.2);
+  }
+  .notify-row .icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(90,169,255,0.1); border: 1px solid rgba(90,169,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .notify-row .body .role {
+    font-weight: 600; color: var(--ink); letter-spacing: 0.2px;
+  }
+  .notify-row .body .channel {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px;
+    color: var(--muted); margin-left: 6px;
+    padding: 1px 6px; border-radius: 4px; background: var(--panel-hi);
+  }
+  .notify-row .body .msg {
+    color: #cdd7f2; font-size: 12px; margin-top: 3px;
+  }
+  .notify-row .body .meta {
+    color: var(--muted); font-size: 10px; margin-top: 4px; letter-spacing: 0.2px;
+  }
+  .notify-row .body .meta .ok { color: var(--accent); }
+  .notify-row .body .meta .no { color: #ff7a7a; }
+  .notify-row audio {
+    height: 26px; max-width: 180px;
+  }
+  @keyframes slideIn {
+    0%   { opacity: 0; transform: translateX(6px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
 </style>
 </head>
 <body>
 
-<header>
+<section class="hero" id="hero">
+  <div class="hero-compliance">
+    Operational coordination only — never medical advice.
+  </div>
+
+  <svg class="hero-ecg" viewBox="0 0 2400 200" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="ecgGrad" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0%"  stop-color="#7ee8b2" stop-opacity="0"/>
+        <stop offset="20%" stop-color="#7ee8b2" stop-opacity="0.9"/>
+        <stop offset="50%" stop-color="#5aa9ff" stop-opacity="1"/>
+        <stop offset="80%" stop-color="#ff7ac4" stop-opacity="0.9"/>
+        <stop offset="100%" stop-color="#ff7ac4" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <path
+      d="M0 100 L200 100 L240 100 L260 60 L280 140 L300 80 L320 120 L340 100 L600 100 L640 100 L660 50 L680 150 L700 85 L720 115 L740 100 L1000 100 L1040 100 L1060 40 L1080 160 L1100 90 L1120 110 L1140 100 L1400 100 L1440 100 L1460 55 L1480 145 L1500 82 L1520 118 L1540 100 L1800 100 L1840 100 L1860 45 L1880 155 L1900 88 L1920 112 L1940 100 L2200 100 L2400 100"
+      fill="none" stroke="url(#ecgGrad)" stroke-width="2.4"
+      stroke-linecap="round" stroke-linejoin="round"
+    />
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-badge"><span class="live-dot"></span>Live · Clinical operations agent</div>
+    <h1 class="hero-title">MediMind</h1>
+    <p class="hero-tagline">
+      An <strong>always-on voice agent</strong> for the ward. It hears coordination
+      gaps, <strong>matches</strong> a protocol if one exists, and <strong>forges</strong>
+      a new one if it doesn't — live, in Atlas.
+    </p>
+    <div class="hero-stack">
+      <span>MongoDB Atlas Vector Search</span>
+      <span>LangGraph</span>
+      <span>Voyage AI</span>
+      <span>Fireworks</span>
+      <span>LiveKit</span>
+      <span>ElevenLabs</span>
+      <span>AWS</span>
+    </div>
+    <div class="hero-cta">
+      <button class="hero-btn" id="hero-join">🎤 Start talking</button>
+      <a href="#dashboard" class="hero-btn secondary">Open dashboard</a>
+    </div>
+  </div>
+
+  <a href="#dashboard" class="hero-scroll" aria-label="Scroll to dashboard">
+    Dashboard
+    <span class="arrow"></span>
+  </a>
+</section>
+
+<header id="dashboard">
   <div class="brand">
     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
       <circle cx="14" cy="14" r="12" stroke="#7ee8b2" stroke-width="1.8"/>
@@ -168,6 +470,8 @@
   <div class="status-line">
     <span id="pill-atlas" class="pill"><span class="dot"></span>Atlas</span>
     <span id="pill-livekit" class="pill"><span class="dot"></span>LiveKit</span>
+    <span id="pill-tts" class="pill"><span class="dot"></span>ElevenLabs</span>
+    <span id="pill-discord" class="pill"><span class="dot"></span>Discord</span>
     <span id="pill-index" class="pill"><span class="dot"></span>skill_index</span>
   </div>
 </header>
@@ -181,16 +485,42 @@
 
   <section class="row-grid">
 
+    <div class="card voice-card" id="voice-card">
+      <div class="row between" style="align-items:flex-start;">
+        <div>
+          <h2 style="margin-bottom:6px;">Voice room · LiveKit</h2>
+          <div class="voice-state" id="lk-state"><span class="sdot"></span><span id="lk-state-text">Not connected</span></div>
+        </div>
+        <div class="row">
+          <button id="lk-join" class="primary-cta" type="button">🎤 Join voice room</button>
+          <button id="lk-leave" class="danger" type="button" style="display:none;">Leave</button>
+        </div>
+      </div>
+      <div class="level-bar" id="lk-level" data-level="0" aria-hidden="true"></div>
+      <div class="conv-feed" id="lk-conversation"></div>
+      <div class="small muted" style="margin-top:6px;">
+        Speak naturally — MediMind uses Silero VAD for turn-taking and confirms before
+        initiating any protocol. Make sure the voice agent worker is running
+        (<code class="mono">uv run python voice/medimind_agent.py dev</code>).
+      </div>
+    </div>
+
     <div class="card">
       <h2>Transcript in</h2>
-      <textarea id="transcript" placeholder="e.g. Bed 12 discharge signed, pharmacy not notified yet."></textarea>
+      <textarea id="transcript" placeholder="e.g. Bed 12 discharge signed, pharmacy not notified yet. Or press Talk and speak."></textarea>
       <div class="row between" style="margin-top:10px;">
         <div class="chips" id="sample-chips"></div>
         <div class="row">
+          <label class="small muted" style="display:flex; align-items:center; gap:6px;">
+            <input type="checkbox" id="auto-speak" checked /> auto-speak reply
+          </label>
+          <button class="secondary" id="mic-btn" type="button" title="Voice input (Chrome/Edge)">🎙 Talk</button>
           <button class="secondary" id="clear-btn" type="button">Clear</button>
           <button id="send-btn" type="button">Send transcript</button>
         </div>
       </div>
+      <div id="voice-status" class="small muted" style="margin-top:6px;">Voice idle.</div>
+      <audio id="reply-audio" style="display:none;" preload="auto"></audio>
     </div>
 
     <div class="card">
@@ -203,6 +533,15 @@
         <summary>Raw response</summary>
         <pre id="response-raw-json"></pre>
       </details>
+    </div>
+
+    <div class="card notify-card">
+      <h2>Notifications fan-out <span class="count-badge" id="notify-count">0</span></h2>
+      <div class="small muted" style="margin-bottom:8px;">
+        Each confirmed skill runs its <code class="mono">coordinate()</code> and pushes a message
+        to every responsible role. Ticks appear as Discord webhooks succeed.
+      </div>
+      <div id="notifications"></div>
     </div>
 
     <div class="card">
@@ -249,7 +588,9 @@
   MongoDB Agentic Evolution Hackathon — London, 2026-05-02.
 </footer>
 
-<script>
+<script type="module">
+import { Room, RoomEvent, Track } from "https://esm.sh/livekit-client@2.15.0";
+
 const $ = sel => document.querySelector(sel);
 const $$ = sel => document.querySelectorAll(sel);
 
@@ -263,6 +604,13 @@ const samples = [
 
 const lastSeenSkillIds = new Set();
 const lastSeenSessionIds = new Set();
+const lastSeenNotifyKeys = new Set();
+
+const CHANNEL_ICON = {
+  bleep: "📟", pager: "📟", app: "📱", dashboard: "🖥️",
+  secure_app: "🔒", urgent_radio: "📡", phone: "☎️",
+  email: "✉️", sms: "💬",
+};
 
 function renderChips() {
   const host = $("#sample-chips");
@@ -289,9 +637,12 @@ async function refreshHealth() {
     const d = await r.json();
     setPill($("#pill-atlas"), "Atlas", d.atlas ? "ok" : "bad");
     setPill($("#pill-livekit"), "LiveKit", d.livekit ? "ok" : "warn", d.livekit ? "" : "off");
+    setPill($("#pill-tts"), "ElevenLabs", d.tts ? "ok" : "warn", d.tts ? "" : "off");
+    setPill($("#pill-discord"), "Discord", d.discord ? "ok" : "warn", d.discord ? "" : "off");
     setPill($("#pill-index"), "skill_index",
       d.vector_index_ready ? "ok" : "warn",
       d.vector_index_ready ? "" : (d.vector_index_status || "building"));
+    window._ttsEnabled = !!d.tts;
   } catch (_) {
     setPill($("#pill-atlas"), "Atlas", "bad");
   }
@@ -339,6 +690,56 @@ async function refreshSkills() {
     console.error("refreshSkills", e);
   }
 }
+
+async function refreshNotifications() {
+  try {
+    const r = await fetch("/notifications/recent?limit=18");
+    const d = await r.json();
+    const host = $("#notifications");
+    $("#notify-count").textContent = (d.notifications || []).length;
+
+    const frag = document.createDocumentFragment();
+    (d.notifications || []).forEach(n => {
+      const key = `${n.session_id}|${n.role}|${n.timestamp}`;
+      const isNew = !lastSeenNotifyKeys.has(key) && lastSeenNotifyKeys.size > 0;
+      lastSeenNotifyKeys.add(key);
+
+      const icon = CHANNEL_ICON[n.channel] || "🔔";
+      const okMark = n.discord_posted
+        ? '<span class="ok">✓ Discord</span>'
+        : '<span class="no">· local only</span>';
+      const whenSec = Math.max(0, Math.round((Date.now() - new Date(n.timestamp).getTime()) / 1000));
+      const when = whenSec < 60 ? `${whenSec}s ago` : `${Math.round(whenSec/60)}m ago`;
+
+      const row = document.createElement("div");
+      row.className = "notify-row" + (isNew ? " new" : "");
+      const audioHtml = n.message
+        ? `<audio controls preload="none" src="/speak?text=${encodeURIComponent(n.role.replace(/_/g,' ') + '. ' + n.message)}"></audio>`
+        : "";
+      row.innerHTML = `
+        <div class="icon">${escapeHtml(icon)}</div>
+        <div class="body">
+          <div>
+            <span class="role">${escapeHtml(n.role)}</span>
+            <span class="channel">${escapeHtml(n.channel || "app")}</span>
+          </div>
+          <div class="msg">${escapeHtml(n.message || "")}</div>
+          <div class="meta">
+            ${n.skill_id ? '<code class="mono">' + escapeHtml(n.skill_id) + '</code> · ' : ''}
+            ${okMark} · ${when} · patient ${escapeHtml(n.patient_id || "unknown")} · ward ${escapeHtml(n.ward || "ward")}
+          </div>
+        </div>
+        <div>${audioHtml}</div>
+      `;
+      frag.appendChild(row);
+    });
+    host.innerHTML = "";
+    host.appendChild(frag);
+  } catch (e) {
+    console.error("refreshNotifications", e);
+  }
+}
+
 
 async function refreshSessions() {
   try {
@@ -392,11 +793,119 @@ async function sendTranscript() {
     });
     const d = await r.json();
     renderResponse(d);
-    await Promise.all([refreshSkills(), refreshSessions()]);
+    await Promise.all([refreshSkills(), refreshSessions(), refreshNotifications()]);
+    if (d.response) maybeSpeak(d.response);
   } catch (e) {
     box.innerHTML = '<div class="muted small">Error: ' + escapeHtml(String(e)) + '</div>';
   } finally {
     btn.disabled = false; btn.textContent = "Send transcript";
+  }
+}
+
+// --- Voice output via ElevenLabs --------------------------------------------
+
+function setVoiceStatus(msg) { $("#voice-status").textContent = msg; }
+
+function maybeSpeak(text) {
+  if (!$("#auto-speak").checked) return;
+  if (!window._ttsEnabled) return;
+  const audio = $("#reply-audio");
+  audio.src = "/speak?text=" + encodeURIComponent(text);
+  audio.style.display = "";
+  audio.onplay = () => {
+    setVoiceStatus("🔊 Agent speaking…");
+    pauseMicWhileSpeaking(true);
+  };
+  audio.onended = () => {
+    setVoiceStatus(mic.isListening ? "🎙 Listening…" : "Voice idle.");
+    pauseMicWhileSpeaking(false);
+  };
+  audio.onerror = () => {
+    setVoiceStatus("⚠ TTS error (see network tab).");
+    pauseMicWhileSpeaking(false);
+  };
+  audio.play().catch(err => {
+    // Autoplay may be blocked on first load; user can click the audio element.
+    setVoiceStatus("Autoplay blocked — click the audio control to hear the reply.");
+    audio.controls = true;
+    console.warn(err);
+  });
+}
+
+// --- Voice input via Web Speech API ----------------------------------------
+
+const mic = {
+  recognition: null,
+  isListening: false,
+  wasListening: false,
+  init() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) {
+      $("#mic-btn").disabled = true;
+      $("#mic-btn").title = "Voice input requires Chrome or Edge";
+      setVoiceStatus("Voice input unavailable in this browser (use Chrome or Edge).");
+      return;
+    }
+    const rec = new SR();
+    rec.continuous = false;       // one utterance at a time
+    rec.interimResults = true;
+    rec.lang = "en-GB";
+    rec.maxAlternatives = 1;
+
+    rec.onstart = () => {
+      this.isListening = true;
+      $("#mic-btn").textContent = "🛑 Stop";
+      $("#mic-btn").style.background = "#ff7a7a";
+      setVoiceStatus("🎙 Listening…");
+    };
+    rec.onresult = (ev) => {
+      let interim = "", finalText = "";
+      for (let i = ev.resultIndex; i < ev.results.length; i++) {
+        const t = ev.results[i][0].transcript;
+        if (ev.results[i].isFinal) finalText += t;
+        else interim += t;
+      }
+      const ta = $("#transcript");
+      if (interim) ta.value = interim;
+      if (finalText) {
+        ta.value = finalText.trim();
+        this.stop();
+        // small delay to let onend fire + UI settle, then submit
+        setTimeout(() => sendTranscript(), 120);
+      }
+    };
+    rec.onerror = (ev) => {
+      console.warn("speech error", ev);
+      setVoiceStatus("Mic error: " + (ev.error || "unknown"));
+    };
+    rec.onend = () => {
+      this.isListening = false;
+      $("#mic-btn").textContent = "🎙 Talk";
+      $("#mic-btn").style.background = "";
+      if (!document.getElementById("reply-audio").paused) return;
+      setVoiceStatus("Voice idle.");
+    };
+    this.recognition = rec;
+  },
+  start() {
+    if (!this.recognition || this.isListening) return;
+    try { this.recognition.start(); } catch (e) { console.warn(e); }
+  },
+  stop() {
+    if (!this.recognition || !this.isListening) return;
+    try { this.recognition.stop(); } catch (e) { console.warn(e); }
+  },
+  toggle() { this.isListening ? this.stop() : this.start(); },
+};
+
+function pauseMicWhileSpeaking(speaking) {
+  if (speaking && mic.isListening) {
+    mic.wasListening = true;
+    mic.stop();
+  } else if (!speaking && mic.wasListening) {
+    mic.wasListening = false;
+    // slight delay so the mic doesn't catch the tail of the speech
+    setTimeout(() => mic.start(), 300);
   }
 }
 
@@ -426,21 +935,166 @@ function renderResponse(d) {
   rawJson.textContent = JSON.stringify(d, null, 2);
 }
 
+// --- LiveKit voice room ---------------------------------------------------
+
+const lk = {
+  room: null,
+  audioElements: [],
+  interimBubble: { user: null, agent: null },
+  state: "idle",
+  attachedAudio: false,
+
+  setState(state, text) {
+    this.state = state;
+    const el = $("#lk-state");
+    el.className = "voice-state " + (state === "idle" ? "" : state);
+    $("#lk-state-text").textContent = text;
+    const card = $("#voice-card");
+    card.classList.toggle("live", state === "live" || state === "speaking");
+    const join = $("#lk-join"), leave = $("#lk-leave");
+    if (state === "idle" || state === "error") { join.style.display = ""; leave.style.display = "none"; }
+    else { join.style.display = "none"; leave.style.display = ""; }
+  },
+
+  setLevel(level) {
+    $("#lk-level").setAttribute("data-level", String(Math.max(0, Math.min(5, level))));
+  },
+
+  clearFeed() {
+    $("#lk-conversation").innerHTML = "";
+    this.interimBubble = { user: null, agent: null };
+  },
+
+  addTurn(who, text, isInterim = false) {
+    if (!text || !text.trim()) return;
+    const host = $("#lk-conversation");
+    const role = who === "agent" ? "agent" : "user";
+    const label = who === "agent" ? "MediMind" : "You";
+
+    if (isInterim) {
+      let bubble = this.interimBubble[role];
+      if (!bubble) {
+        bubble = document.createElement("div");
+        bubble.className = "conv-turn " + role + " interim";
+        bubble.innerHTML = `<div class="who">${label}</div><div class="body"></div>`;
+        host.appendChild(bubble);
+        this.interimBubble[role] = bubble;
+      }
+      bubble.querySelector(".body").textContent = text;
+    } else {
+      // commit interim -> final
+      const bubble = this.interimBubble[role];
+      if (bubble) {
+        bubble.classList.remove("interim");
+        bubble.querySelector(".body").textContent = text;
+        this.interimBubble[role] = null;
+      } else {
+        const el = document.createElement("div");
+        el.className = "conv-turn " + role;
+        el.innerHTML = `<div class="who">${label}</div><div class="body"></div>`;
+        el.querySelector(".body").textContent = text;
+        host.appendChild(el);
+      }
+    }
+    host.scrollTop = host.scrollHeight;
+  },
+
+  async join() {
+    if (this.room) return;
+    this.setState("connecting", "Requesting token…");
+
+    let d;
+    try {
+      const r = await fetch("/livekit/token?identity=clinician");
+      if (!r.ok) throw new Error("token endpoint returned " + r.status);
+      d = await r.json();
+    } catch (e) {
+      this.setState("error", "Token error — " + e.message);
+      return;
+    }
+
+    const room = new Room({ adaptiveStream: true, dynacast: true });
+    this.room = room;
+
+    room.on(RoomEvent.TrackSubscribed, (track, pub, participant) => {
+      if (track.kind === Track.Kind.Audio) {
+        const el = track.attach();
+        el.autoplay = true;
+        el.style.display = "none";
+        document.body.appendChild(el);
+        this.audioElements.push(el);
+      }
+    });
+    room.on(RoomEvent.TrackUnsubscribed, (track) => {
+      track.detach().forEach(el => el.remove());
+    });
+    room.on(RoomEvent.ActiveSpeakersChanged, (speakers) => {
+      // Anyone-but-me speaking → pink/blue "speaking"; me speaking → stay "live"
+      const remoteSpeaking = speakers.some(p => p !== room.localParticipant);
+      if (remoteSpeaking) this.setState("speaking", "MediMind speaking…");
+      else if (this.state === "speaking") this.setState("live", "Listening…");
+      this.setLevel(Math.min(5, speakers.length * 2));
+    });
+    room.on(RoomEvent.TranscriptionReceived, (segments, participant) => {
+      const who = (participant && participant !== room.localParticipant) ? "agent" : "user";
+      segments.forEach(seg => this.addTurn(who, seg.text, !seg.final));
+    });
+    room.on(RoomEvent.Disconnected, () => {
+      this.setState("idle", "Not connected");
+      this.cleanupAudio();
+      this.room = null;
+    });
+
+    try {
+      await room.connect(d.url, d.token);
+      this.setState("live", "Connected — say something");
+      await room.localParticipant.setMicrophoneEnabled(true);
+    } catch (e) {
+      this.setState("error", "Connect error — " + e.message);
+      try { room.disconnect(); } catch (_) {}
+      this.room = null;
+    }
+  },
+
+  async leave() {
+    if (!this.room) return;
+    try { await this.room.disconnect(); } catch (_) {}
+    this.room = null;
+    this.cleanupAudio();
+    this.setState("idle", "Not connected");
+  },
+
+  cleanupAudio() {
+    this.audioElements.forEach(el => el.remove());
+    this.audioElements = [];
+  },
+};
+
 function bind() {
   $("#send-btn").addEventListener("click", sendTranscript);
   $("#clear-btn").addEventListener("click", () => { $("#transcript").value = ""; });
+  $("#mic-btn").addEventListener("click", () => mic.toggle());
   $("#transcript").addEventListener("keydown", (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === "Enter") sendTranscript();
+  });
+  $("#lk-join").addEventListener("click", () => lk.join());
+  $("#lk-leave").addEventListener("click", () => lk.leave());
+  const heroJoin = document.getElementById("hero-join");
+  if (heroJoin) heroJoin.addEventListener("click", () => {
+    document.getElementById("voice-card").scrollIntoView({ behavior: "smooth", block: "start" });
+    setTimeout(() => lk.join(), 300);
   });
 }
 
 async function boot() {
   renderChips();
+  mic.init();
   bind();
-  await Promise.all([refreshHealth(), refreshSkills(), refreshSessions()]);
+  await Promise.all([refreshHealth(), refreshSkills(), refreshSessions(), refreshNotifications()]);
   setInterval(refreshHealth, 8000);
   setInterval(refreshSkills, 5000);
   setInterval(refreshSessions, 5000);
+  setInterval(refreshNotifications, 3000);
 }
 boot();
 </script>

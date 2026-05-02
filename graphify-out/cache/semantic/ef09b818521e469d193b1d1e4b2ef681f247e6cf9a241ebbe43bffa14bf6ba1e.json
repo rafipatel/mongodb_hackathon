@@ -1,0 +1,1 @@
+{"nodes": [{"id": "route_node", "label": "route pass-through before conditional fan-out", "source_file": "agent/nodes/route.py"}], "edges": [{"source": "route_node", "target": "medimind_state", "relation": "forwards_state_for_conditional_edges", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "agent/nodes/route.py"}], "hyperedges": []}

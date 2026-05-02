@@ -1,0 +1,8 @@
+# Audio files: graphify treats these as "video" and would run local Whisper transcription.
+# Ignore them so nothing in this repo triggers audio transcription during /graphify.
+*.mp3
+*.wav
+*.m4a
+*.ogg
+*.aac
+*.flac

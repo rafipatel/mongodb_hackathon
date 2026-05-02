@@ -1,8 +1,162 @@
 {
-  "/Users/rafa/MscAi/mongodb_hackathon/Readme.md": 1777716936.9959388,
-  "/Users/rafa/MscAi/mongodb_hackathon/claude_sonnet_planned_files/CODE_STRUCTURE.md": 1777718529.4816875,
-  "/Users/rafa/MscAi/mongodb_hackathon/claude_sonnet_planned_files/README.md": 1777718529.5214233,
-  "/Users/rafa/MscAi/mongodb_hackathon/claude_sonnet_planned_files/FLOW.md": 1777718530.0865383,
-  "/Users/rafa/MscAi/mongodb_hackathon/hackathon_docs/hackathon_details.md": 1777718356.1285114,
-  "/Users/rafa/MscAi/mongodb_hackathon/hackathon_docs/AWS_Free_Tier__Hackathon_Participant_Guide.pdf": 1777714477.740699
+  "/Users/rafa/MscAi/mongodb_hackathon/server.py": {
+    "mtime": 1777724267.6972408,
+    "hash": "524995bbd839fb8bc50c1045f46c956b"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/config.py": {
+    "mtime": 1777724197.7128093,
+    "hash": "9585abaa1ece392a9ac5588d968b5579"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/seed_skills.py": {
+    "mtime": 1777720170.4953914,
+    "hash": "e37030568758aa09ca925a2207b7fb1a"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/memory/store.py": {
+    "mtime": 1777719934.6912644,
+    "hash": "3f796bc378c2d26add3ac3d2e522bf49"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/memory/client.py": {
+    "mtime": 1777719916.5036824,
+    "hash": "fb3477b8342bcfcec1418ee24065100c"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/memory/__init__.py": {
+    "mtime": 1777719910.2116718,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/memory/search.py": {
+    "mtime": 1777719924.5097806,
+    "hash": "daa61e3c43cfe3333ca6ce68049e9bfa"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/agent/__init__.py": {
+    "mtime": 1777719944.895099,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/agent/orchestrator.py": {
+    "mtime": 1777720421.388325,
+    "hash": "be177c6f33dd875e4655057c48b5c4b6"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/agent/state.py": {
+    "mtime": 1777719950.0605843,
+    "hash": "5fd364b7a4653ac603c5802bd7988182"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/agent/nodes/ingest.py": {
+    "mtime": 1777719959.6803603,
+    "hash": "eba5c3c26d5d91dbe3cd0ad0e61dd0d0"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/agent/nodes/respond.py": {
+    "mtime": 1777719980.8530438,
+    "hash": "8dcaf10a2b917fe31f767385da70003e"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/agent/nodes/route.py": {
+    "mtime": 1777719969.9658356,
+    "hash": "f362b4aa94f74d77af859d726c448c79"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/agent/nodes/memory_lookup.py": {
+    "mtime": 1777719966.1429553,
+    "hash": "d1b23d072c442b38f5928c165dca4c7a"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/agent/nodes/__init__.py": {
+    "mtime": 1777719954.6845758,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/schemas/skill.py": {
+    "mtime": 1777719895.8568485,
+    "hash": "97e367cbe047641935b87ecd5fd1d0c0"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/schemas/task.py": {
+    "mtime": 1777719907.3683634,
+    "hash": "701328857c9e91ef8edd3b599b5fa61d"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/schemas/session.py": {
+    "mtime": 1777719901.5383182,
+    "hash": "7f0928affcb7f707b9102a64321f58e6"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/schemas/__init__.py": {
+    "mtime": 1777719890.2106948,
+    "hash": "6899226e670ff1681d1306ad52c5f49e"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/voice/gateway.py": {
+    "mtime": 1777720101.7460809,
+    "hash": "81471ff3819745f65941f044fccb79f0"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/voice/speak.py": {
+    "mtime": 1777721921.8594723,
+    "hash": "bfce7a68a38e411a4f6ed79dfe30a547"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/voice/__init__.py": {
+    "mtime": 1777720069.394995,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/voice/transcribe.py": {
+    "mtime": 1777720077.3038373,
+    "hash": "4f1b8c1a7c4014d64a0556b2c5e5da92"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/voice/medimind_agent.py": {
+    "mtime": 1777724311.409592,
+    "hash": "4b18e1b680a00b0f336e462607245cf4"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/forge/validator.py": {
+    "mtime": 1777721269.6396384,
+    "hash": "d2d001d0feafb79a1684bb4cd10f5efa"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/forge/forge.py": {
+    "mtime": 1777721354.9374156,
+    "hash": "5b448a5b8889cbe0972b4107354347bf"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/forge/__init__.py": {
+    "mtime": 1777720005.5407097,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/forge/prompts.py": {
+    "mtime": 1777720018.3435848,
+    "hash": "be12363b60162d526edc5ae2e2821455"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/scripts/ensure_vector_index.py": {
+    "mtime": 1777720940.348144,
+    "hash": "5b524389c86f4e49c484634d6b70099a"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/notifications/dispatcher.py": {
+    "mtime": 1777724230.5114377,
+    "hash": "77c1c16b57d2250b0f9b27c0d0799fe7"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/notifications/__init__.py": {
+    "mtime": 1777724200.8570645,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/SETUP.md": {
+    "mtime": 1777720193.5090728,
+    "hash": "d65ea71f30d38a1f52f58ca8673b7b6d"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/Readme.md": {
+    "mtime": 1777721858.554581,
+    "hash": "a8e40534464062599c7575a7587127c4"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/HANDOVER.md": {
+    "mtime": 1777720458.2112038,
+    "hash": "c994853511ff3e0fdfdfdf8492ba04aa"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/static/index.html": {
+    "mtime": 1777724381.4020195,
+    "hash": "82b684e2ff4673cb51623595c52ee62d"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/claude_sonnet_planned_files/CODE_STRUCTURE.md": {
+    "mtime": 1777718529.4816875,
+    "hash": "0f433fc8e412cef57d9f97e2c974996f"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/claude_sonnet_planned_files/README.md": {
+    "mtime": 1777718529.5214233,
+    "hash": "db0fe5637c701e8d0e6dd0a6088806a8"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/claude_sonnet_planned_files/FLOW.md": {
+    "mtime": 1777718530.0865383,
+    "hash": "5e9621dae85f6d1deef3d83a4ee4c721"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/hackathon_docs/hackathon_details.md": {
+    "mtime": 1777718356.1285114,
+    "hash": "c7b10ae0d810daedf436aae83c2f988a"
+  },
+  "/Users/rafa/MscAi/mongodb_hackathon/hackathon_docs/AWS_Free_Tier__Hackathon_Participant_Guide.pdf": {
+    "mtime": 1777714477.740699,
+    "hash": "d265bdffd4f1bda2de51350fd75b619f"
+  }
 }

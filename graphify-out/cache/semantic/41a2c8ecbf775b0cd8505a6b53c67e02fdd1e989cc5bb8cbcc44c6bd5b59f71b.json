@@ -1,0 +1,1 @@
+{"nodes": [{"id": "ingest_node", "label": "ingest node normalizes transcript", "source_file": "agent/nodes/ingest.py"}], "edges": [{"source": "ingest_node", "target": "medimind_state", "relation": "normalizes_transcript_and_default_fields", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "agent/nodes/ingest.py"}], "hyperedges": []}

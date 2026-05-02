@@ -1,127 +1,197 @@
 # Graph Report - /Users/rafa/MscAi/mongodb_hackathon  (2026-05-02)
 
 ## Corpus Check
-- Corpus is ~5,815 words - fits in a single context window. You may not need a graph.
+- Corpus is ~18,647 words - fits in a single context window. You may not need a graph.
 
 ## Summary
-- 91 nodes · 112 edges · 11 communities detected
-- Extraction: 90% EXTRACTED · 10% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.9)
+- 223 nodes · 300 edges · 22 communities detected
+- Extraction: 80% EXTRACTED · 19% INFERRED · 0% AMBIGUOUS · INFERRED: 58 edges (avg confidence: 0.74)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
-- [[_COMMUNITY_Forge & Skill Storage|Forge & Skill Storage]]
-- [[_COMMUNITY_MediMind Vision & Hackathon Themes|MediMind Vision & Hackathon Themes]]
-- [[_COMMUNITY_Memory & Vector Search Stack|Memory & Vector Search Stack]]
-- [[_COMMUNITY_Hackathon Rules & Judging|Hackathon Rules & Judging]]
-- [[_COMMUNITY_AWS Free Tier Constraints|AWS Free Tier Constraints]]
-- [[_COMMUNITY_Core System Flows|Core System Flows]]
-- [[_COMMUNITY_Voice Ingest Pipeline|Voice Ingest Pipeline]]
-- [[_COMMUNITY_Code Structure Overview|Code Structure Overview]]
-- [[_COMMUNITY_Session Schema|Session Schema]]
-- [[_COMMUNITY_Task Schema|Task Schema]]
-- [[_COMMUNITY_Python Dependencies|Python Dependencies]]
+- [[_COMMUNITY_AWS hackathon free-tier docs|AWS hackathon free-tier docs]]
+- [[_COMMUNITY_MongoDB client getters|MongoDB client getters]]
+- [[_COMMUNITY_Respond memory vector lookup|Respond memory vector lookup]]
+- [[_COMMUNITY_Checkpoint store Atlas FastAPI|Checkpoint store Atlas FastAPI]]
+- [[_COMMUNITY_Ingest route LangGraph state|Ingest route LangGraph state]]
+- [[_COMMUNITY_Voice MediMind dialog flow|Voice MediMind dialog flow]]
+- [[_COMMUNITY_LiveKit audio gateway|LiveKit audio gateway]]
+- [[_COMMUNITY_Discord notification dispatcher|Discord notification dispatcher]]
+- [[_COMMUNITY_ElevenLabs TTS layer|ElevenLabs TTS layer]]
+- [[_COMMUNITY_Orchestrator graph lifecycle|Orchestrator graph lifecycle]]
+- [[_COMMUNITY_Forge Fireworks codegen|Forge Fireworks codegen]]
+- [[_COMMUNITY_Fireworks Whisper transcribe|Fireworks Whisper transcribe]]
+- [[_COMMUNITY_Atlas vector index setup|Atlas vector index setup]]
+- [[_COMMUNITY_Architecture planning docs|Architecture planning docs]]
+- [[_COMMUNITY_Task schema model|Task schema model]]
+- [[_COMMUNITY_Session schema model|Session schema model]]
+- [[_COMMUNITY_Static web MediMind UI|Static web MediMind UI]]
+- [[_COMMUNITY_Transcribe file helper|Transcribe file helper]]
+- [[_COMMUNITY_Speak configuration helpers|Speak configuration helpers]]
+- [[_COMMUNITY_Speak streaming API|Speak streaming API]]
+- [[_COMMUNITY_VoiceState types|VoiceState types]]
+- [[_COMMUNITY_HANDOVER coordinator notes|HANDOVER coordinator notes]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `MediMind - Clinical Operations Intelligence` - 23 edges
-2. `agent/orchestrator.py - LangGraph Graph Definition` - 11 edges
-3. `MongoDB Agentic Evolution Hackathon` - 10 edges
-4. `AWS Free Tier Hackathon Participant Guide` - 10 edges
-5. `Setup and Partner Info` - 7 edges
-6. `MongoDB` - 4 edges
-7. `AWS Lambda` - 4 edges
-8. `Atlas Vector Search` - 4 edges
-9. `memory/search.py - embed_and_search` - 4 edges
-10. `forge/forge.py - Fireworks AI Code Generation` - 4 edges
+1. `route_turn()` - 16 edges
+2. `get_collection()` - 14 edges
+3. `LangGraph build_graph / build_app wiring` - 12 edges
+4. `MediMindState` - 9 edges
+5. `_handle_transcript()` - 7 edges
+6. `store_skill()` - 7 edges
+7. `speak_stream()` - 7 edges
+8. `execute_and_notify()` - 7 edges
+9. `store_skill persists forged skill` - 7 edges
+10. `route_turn` - 7 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `MongoDB Atlas M10 Sandbox Cluster` --semantically_similar_to--> `MongoDB Atlas Hackathon Sandbox Requirement`  [INFERRED] [semantically similar]
-  hackathon_docs/AWS_Free_Tier__Hackathon_Participant_Guide.pdf → Readme.md
-- `Recommended Hackathon Stacks (AI Agent: Lambda + Bedrock + Atlas Vector Search)` --conceptually_related_to--> `MediMind - Clinical Operations Intelligence`  [INFERRED]
-  hackathon_docs/AWS_Free_Tier__Hackathon_Participant_Guide.pdf → claude_sonnet_planned_files/README.md
-- `Atlas Sandbox Build Requirement` --semantically_similar_to--> `MongoDB Atlas Hackathon Sandbox Requirement`  [INFERRED] [semantically similar]
-  hackathon_docs/hackathon_details.md → Readme.md
-- `Theme: Prolonged Coordination` --semantically_similar_to--> `Prolonged Coordination (Hackathon Theme)`  [INFERRED] [semantically similar]
-  hackathon_docs/hackathon_details.md → claude_sonnet_planned_files/README.md
-- `Theme: Adaptive Retrieval` --semantically_similar_to--> `Adaptive Retrieval (Hackathon Theme)`  [INFERRED] [semantically similar]
-  hackathon_docs/hackathon_details.md → claude_sonnet_planned_files/README.md
+- `Operations dashboard status pills transcript UI` --conceptually_related_to--> `LiveKit entrypoint rtc_session`  [INFERRED]
+  static/index.html → voice/medimind_agent.py
+- `Planned directory layout and stubs` --conceptually_related_to--> `forge_skill`  [INFERRED]
+  claude_sonnet_planned_files/CODE_STRUCTURE.md → forge/forge.py
+- `_try_lambda_validate AWS Lambda` --conceptually_related_to--> `Always Free AWS services Lambda S3 CloudWatch`  [INFERRED]
+  forge/validator.py → hackathon_docs/AWS_Free_Tier__Hackathon_Participant_Guide.pdf
+- `MediMind local setup guide` --conceptually_related_to--> `ensure_index Atlas vector search`  [INFERRED]
+  SETUP.md → scripts/ensure_vector_index.py
+- `Hackathon partner stack and setup notes` --semantically_similar_to--> `MediMind pitch themes tech stack demo script`  [INFERRED] [semantically similar]
+  Readme.md → claude_sonnet_planned_files/README.md
 
 ## Hyperedges (group relationships)
-- **Voice I/O Pipeline (LiveKit + Whisper + ElevenLabs)** — readme_livekit, readme_whisper_transcription, readme_elevenlabs, code_structure_voice_gateway, code_structure_voice_speak [EXTRACTED 1.00]
-- **Skill Forge Pipeline (Fireworks gen + Lambda validate + Atlas store)** — readme_fireworks_ai, readme_aws_lambda_sandbox, readme_atlas_vector_search, code_structure_forge, code_structure_validator, code_structure_memory_store, readme_skill_forge_concept [EXTRACTED 1.00]
-- **LangGraph State Machine Nodes** — code_structure_node_ingest, code_structure_node_memory_lookup, code_structure_node_route, code_structure_node_respond, code_structure_orchestrator, code_structure_state [EXTRACTED 1.00]
+- **Per-turn subgraph ingest to lookup to route before forge-or-respond branch** — ingest_node, memory_lookup_node, route_node, orchestrator [EXTRACTED 1.00]
+- **Embedding generation plus Mongo skills query/write shared by agent lookup seed and store** — embedding_search, mongo_access_layer, skill_model, env_config [EXTRACTED 0.94]
+- **Forge validate conditional loop ending in Atlas skill insert then respond** — forge_skill_node, validate_skill_node, store_skill_node, respond_node, orchestrator [EXTRACTED 0.93]
+- **Forge prompt code-gen and validation path** — forge_forge_skill, prompts_build_forge_prompt, validator_validate_skill [EXTRACTED 1.00]
+- **Notification fan-out with optional ElevenLabs MP3** — dispatcher_execute_and_notify, dispatcher_post_to_discord, speak_speak [EXTRACTED 1.00]
+- **LiveKit audio chunk to Fireworks Whisper transcript** — gateway_run_voice_gateway, gateway_consume_track, transcribe_transcribe_bytes [EXTRACTED 1.00]
 
 ## Communities
 
-### Community 0 - "Forge & Skill Storage"
-Cohesion: 0.13
-Nodes (17): config.py - Env Vars and Constants, forge/forge.py - Fireworks AI Code Generation, FORGE_MAX_RETRIES = 3, FORGE_PASS_SCORE = 0.80, memory/client.py - MongoDB Atlas Connection Singleton, memory/store.py - store_skill, store_session, store_task, Node ingest - receive and clean transcript, Node respond - build and speak response (+9 more)
+### Community 0 - "AWS hackathon free-tier docs"
+Cohesion: 0.07
+Nodes (30): Always Free AWS services Lambda S3 CloudWatch, Billing alerts and zero-spend budget guidance, AWS Free Tier Hackathon Participant Guide, Planned directory layout and stubs, _exec_coordinate, execute_and_notify, fetch_skill_code, _post_to_discord webhook fan-out (+22 more)
 
-### Community 1 - "MediMind Vision & Hackathon Themes"
+### Community 1 - "MongoDB client getters"
+Cohesion: 0.11
+Nodes (26): BaseModel, get_client(), get_collection(), get_db(), ping(), Verify Atlas connectivity., _extract_patient_hint(), _extract_ward_hint() (+18 more)
+
+### Community 2 - "Respond memory vector lookup"
+Cohesion: 0.13
+Nodes (16): _client(), embed(), embed_and_search(), embed_document(), increment_skill_usage(), _new_skill_id(), LangGraph node: persist a forged skill to Atlas with a fresh embedding.      Exp, store_session() (+8 more)
+
+### Community 3 - "Checkpoint store Atlas FastAPI"
+Cohesion: 0.2
+Nodes (21): MongoDBSaver graph checkpoints, store_session store_task increment_skill_usage, Voyage embed + Atlas $vectorSearch pipeline, Environment-backed runtime constants, FastAPI MediMind app and HTTP surface, forge_skill LangGraph node, ingest node normalizes transcript, MediMindState TypedDict (+13 more)
+
+### Community 4 - "Ingest route LangGraph state"
 Cohesion: 0.14
-Nodes (17): voice/speak.py - ElevenLabs TTS, Always-On Architecture Rationale, Theme: Prolonged Coordination, AWS Lambda - Sandbox Validation, ElevenLabs - Voice Out, Judging Criteria (Live Demo 45%, Creativity 35%, Impact 20%), LangSmith Checkpointer - Shift-long Memory, MediMind - Clinical Operations Intelligence (+9 more)
+Nodes (15): MediMindState, _aws_configured(), _load_synthetic_cases(), _local_validate(), Skill validator.  Real path: invoke an AWS Lambda that runs the forged code agai, Cheap local fallback. Score in [0, 1]., Try the AWS Lambda validator. Return None if it can't run so caller falls back., _try_lambda_validate() (+7 more)
 
-### Community 2 - "Memory & Vector Search Stack"
-Cohesion: 0.13
-Nodes (17): Initialize MongoDB Client Outside Lambda Handler Rationale, Recommended Hackathon Stacks (AI Agent: Lambda + Bedrock + Atlas Vector Search), Atlas Vector Search Index (skill_index, knnVector, 1024 dim, cosine), memory/search.py - embed_and_search, Node memory_lookup - Atlas vector search, Atlas Vector Search, AWS Lambda, deepagents (+9 more)
-
-### Community 3 - "Hackathon Rules & Judging"
+### Community 5 - "Voice MediMind dialog flow"
 Cohesion: 0.17
-Nodes (12): Banned Anti-Projects (no medical advice AI etc.), Best Use of ElevenLabs Bonus Track, MongoDB Agentic Evolution Hackathon, Judges Panel (Pete Johnson MongoDB, David Asamu LangChain, etc.), Judging Process (3 rounds), Hackathon Prizes (15k cash + credits), Max Team Size 4, Theme: Adaptive Retrieval (+4 more)
+Nodes (12): _is_no(), _is_yes(), _last_user_text(), _patient_hint(), _pending_matched_from_history(), prewarm(), LiveKit voice agent for MediMind.  Pipeline:     user speaks  →  Silero VAD  →, If the previous assistant turn was asking for confirmation, return the stashed c (+4 more)
 
-### Community 4 - "AWS Free Tier Constraints"
-Cohesion: 0.24
-Nodes (11): Always Free AWS Services (Lambda, S3, API Gateway, CloudWatch), MongoDB Atlas M10 Sandbox Cluster, Avoid AWS DocumentDB Rationale (no free tier, $60/mo min), Set Billing Alert at $1 (Zero Spend Budget), Cleanup After Hackathon, Choose Free Plan Rationale (account closes vs charges), AWS Free Tier Hackathon Participant Guide, AWS Landmines (NAT Gateway, Elastic IPs, oversized EC2) (+3 more)
+### Community 6 - "LiveKit audio gateway"
+Cohesion: 0.18
+Nodes (12): livekit_token(), _safe_voice_gateway(), _consume_track(), _frames_to_wav(), generate_join_token(), LiveKit voice gateway.  Subscribes to the configured room, accumulates ~1s buffe, Concatenate AudioFrames into a single 16-bit PCM WAV blob., Connect to LiveKit and pump every audio track into on_transcript. (+4 more)
 
-### Community 5 - "Core System Flows"
+### Community 7 - "Discord notification dispatcher"
 Cohesion: 0.29
-Nodes (7): MediMind Communicators (nurse, doctor, coordinator), MongoDB Atlas ER Data Model, Forge Pipeline (transcript -> Fireworks -> Lambda -> Atlas), MediMind Full System Flow, Skill Match Decision (>= 0.78 execute, else forge), LangGraph State Machine (ingest -> memory_lookup -> route -> respond), MongoDB Collection: skills
+Nodes (10): _dispatch_step(), _exec_coordinate(), execute_and_notify(), _post_to_discord(), _pretty_step(), Notification dispatcher.  When a skill is confirmed for execution, we:  1. Execu, Run the skill, fan out each step, return {summary, steps:[...]}.      Steps are, Compile a skill module and return its ``coordinate`` callable. (+2 more)
 
-### Community 6 - "Voice Ingest Pipeline"
+### Community 8 - "ElevenLabs TTS layer"
+Cohesion: 0.44
+Nodes (8): _headers(), is_configured(), _payload(), ElevenLabs TTS — text in, audio bytes out (mp3)., Stream MP3 chunks as ElevenLabs produces them, so the browser starts playing fas, speak(), speak_stream(), _url()
+
+### Community 9 - "Orchestrator graph lifecycle"
+Cohesion: 0.28
+Nodes (7): build_app(), build_app_no_checkpoint(), build_graph(), After validation: store if pass, retry forge if fail and budget remains, else gi, Build the graph wired to a MongoDB checkpointer.      Use this from FastAPI life, _validation_branch(), lifespan()
+
+### Community 10 - "Forge Fireworks codegen"
+Cohesion: 0.5
+Nodes (3): _extract_code(), forge_skill(), build_forge_prompt()
+
+### Community 11 - "Fireworks Whisper transcribe"
 Cohesion: 0.4
-Nodes (5): server.py - FastAPI Entry Point, voice/gateway.py - LiveKit Listener, voice/transcribe.py - Fireworks Whisper Wrapper, LiveKit - Real-time Audio Capture, Fireworks AI Whisper - Speech to Text
+Nodes (5): _consume_track, _frames_to_wav, generate_join_token, run_voice_gateway, transcribe_bytes
 
-### Community 7 - "Code Structure Overview"
-Cohesion: 1.0
-Nodes (2): MediMind Directory Layout, MediMind Code Structure
+### Community 12 - "Atlas vector index setup"
+Cohesion: 0.67
+Nodes (3): ensure_index(), _find_index(), Create the Atlas Vector Search index on MediMind.skills.embedding if missing.  I
 
-### Community 8 - "Session Schema"
-Cohesion: 1.0
-Nodes (1): schemas/session.py - Session Dataclass
+### Community 13 - "Architecture planning docs"
+Cohesion: 0.5
+Nodes (4): Agent flow mermaid state ER diagrams, Architecture paragraph LiveKit LangGraph Atlas forge, MediMind pitch themes tech stack demo script, Hackathon partner stack and setup notes
 
-### Community 9 - "Task Schema"
-Cohesion: 1.0
-Nodes (1): schemas/task.py - Task Dataclass
+### Community 15 - "Task schema model"
+Cohesion: 0.67
+Nodes (1): Task
 
-### Community 10 - "Python Dependencies"
+### Community 16 - "Session schema model"
+Cohesion: 0.67
+Nodes (1): Session
+
+### Community 17 - "Static web MediMind UI"
 Cohesion: 1.0
-Nodes (1): pyproject.toml - Python Dependencies
+Nodes (2): LiveKit browser client voice room join, Landing hero MediMind value proposition
+
+### Community 25 - "Transcribe file helper"
+Cohesion: 1.0
+Nodes (1): transcribe_file
+
+### Community 26 - "Speak configuration helpers"
+Cohesion: 1.0
+Nodes (1): is_configured
+
+### Community 27 - "Speak streaming API"
+Cohesion: 1.0
+Nodes (1): speak_stream
+
+### Community 28 - "VoiceState types"
+Cohesion: 1.0
+Nodes (1): VoiceState
+
+### Community 29 - "HANDOVER coordinator notes"
+Cohesion: 1.0
+Nodes (1): MediMind operational coordinator instructions
+
+## Ambiguous Edges - Review These
+- `store_session store_task increment_skill_usage` → `Task dataclass schema`  [AMBIGUOUS]
+  memory/store.py · relation: store_task_accepts_generic_task_documents
 
 ## Knowledge Gaps
-- **36 isolated node(s):** `deepagents`, `Text to MQL`, `LiveKit MongoDB Hacker Starter Repo`, `LiveKit Agent Skills Repo`, `MediMind Code Structure` (+31 more)
+- **46 isolated node(s):** `MediMind FastAPI entrypoint.  Endpoints:   GET  /                            — d`, `Run a transcript through the LangGraph agent, then (optionally) execute the skil`, `Best-effort peek at the Atlas Search index status. Non-blocking on failure.`, `Stream ElevenLabs TTS via a plain URL — so `<audio src="/speak?text=...">` works`, `Verify Atlas connectivity.` (+41 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **Thin community `Code Structure Overview`** (2 nodes): `MediMind Directory Layout`, `MediMind Code Structure`
+- **Thin community `Task schema model`** (3 nodes): `task.py`, `Task`, `.to_dict()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Session Schema`** (1 nodes): `schemas/session.py - Session Dataclass`
+- **Thin community `Session schema model`** (3 nodes): `session.py`, `Session`, `.to_dict()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Task Schema`** (1 nodes): `schemas/task.py - Task Dataclass`
+- **Thin community `Static web MediMind UI`** (2 nodes): `LiveKit browser client voice room join`, `Landing hero MediMind value proposition`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Python Dependencies`** (1 nodes): `pyproject.toml - Python Dependencies`
+- **Thin community `Transcribe file helper`** (1 nodes): `transcribe_file`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Speak configuration helpers`** (1 nodes): `is_configured`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Speak streaming API`** (1 nodes): `speak_stream`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `VoiceState types`** (1 nodes): `VoiceState`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `HANDOVER coordinator notes`** (1 nodes): `MediMind operational coordinator instructions`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `MediMind - Clinical Operations Intelligence` connect `MediMind Vision & Hackathon Themes` to `Forge & Skill Storage`, `Memory & Vector Search Stack`, `Hackathon Rules & Judging`, `Core System Flows`, `Voice Ingest Pipeline`?**
-  _High betweenness centrality (0.483) - this node is a cross-community bridge._
-- **Why does `agent/orchestrator.py - LangGraph Graph Definition` connect `Forge & Skill Storage` to `Memory & Vector Search Stack`, `Core System Flows`, `Voice Ingest Pipeline`?**
-  _High betweenness centrality (0.213) - this node is a cross-community bridge._
-- **Why does `MongoDB Agentic Evolution Hackathon` connect `Hackathon Rules & Judging` to `MediMind Vision & Hackathon Themes`, `AWS Free Tier Constraints`?**
-  _High betweenness centrality (0.157) - this node is a cross-community bridge._
-- **What connects `deepagents`, `Text to MQL`, `LiveKit MongoDB Hacker Starter Repo` to the rest of the system?**
-  _36 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Forge & Skill Storage` be split into smaller, more focused modules?**
-  _Cohesion score 0.13 - nodes in this community are weakly interconnected._
-- **Should `MediMind Vision & Hackathon Themes` be split into smaller, more focused modules?**
-  _Cohesion score 0.14 - nodes in this community are weakly interconnected._
-- **Should `Memory & Vector Search Stack` be split into smaller, more focused modules?**
-  _Cohesion score 0.13 - nodes in this community are weakly interconnected._
+- **What is the exact relationship between `store_session store_task increment_skill_usage` and `Task dataclass schema`?**
+  _Edge tagged AMBIGUOUS (relation: store_task_accepts_generic_task_documents) - confidence is low._
+- **Why does `route_turn()` connect `Voice MediMind dialog flow` to `MongoDB client getters`, `Respond memory vector lookup`, `Ingest route LangGraph state`, `Discord notification dispatcher`, `Forge Fireworks codegen`?**
+  _High betweenness centrality (0.145) - this node is a cross-community bridge._
+- **Why does `get_collection()` connect `MongoDB client getters` to `Respond memory vector lookup`, `Discord notification dispatcher`?**
+  _High betweenness centrality (0.083) - this node is a cross-community bridge._
+- **Why does `_handle_transcript()` connect `MongoDB client getters` to `Discord notification dispatcher`?**
+  _High betweenness centrality (0.075) - this node is a cross-community bridge._
+- **Are the 8 inferred relationships involving `route_turn()` (e.g. with `increment_skill_usage()` and `store_session()`) actually correct?**
+  _`route_turn()` has 8 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 12 inferred relationships involving `get_collection()` (e.g. with `skill_count()` and `skills_recent()`) actually correct?**
+  _`get_collection()` has 12 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 7 inferred relationships involving `MediMindState` (e.g. with `After validation: store if pass, retry forge if fail and budget remains, else gi` and `Build the graph wired to a MongoDB checkpointer.      Use this from FastAPI life`) actually correct?**
+  _`MediMindState` has 7 INFERRED edges - model-reasoned connections that need verification._

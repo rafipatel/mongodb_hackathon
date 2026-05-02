@@ -41,4 +41,3 @@ MongoDB cluster setup - mongodb+srv://raafi:<db_password>@cluster0.bbhger.mongod
 Fireworks AI $5 credits
 
 
-#

@@ -47,6 +47,9 @@ LIVEKIT_ROOM = _opt("LIVEKIT_ROOM", "medimind-ward")
 ELEVENLABS_API_KEY = os.environ.get("ELEVENLABS_API_KEY", "")
 ELEVENLABS_VOICE_ID = os.environ.get("ELEVENLABS_VOICE_ID", "")
 
+# Discord notifications (webhook URL — text + audio attachments)
+DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL", "")
+
 # Behaviour
 SKILL_MATCH_THRESHOLD = float(_opt("SKILL_MATCH_THRESHOLD", "0.78"))
 FORGE_MAX_RETRIES = int(_opt("FORGE_MAX_RETRIES", "3"))

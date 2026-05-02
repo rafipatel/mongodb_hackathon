@@ -1,0 +1,1 @@
+{"nodes": [{"id": "mongo_access_layer", "label": "Motor client get_db / get_collection / ping", "source_file": "memory/client.py"}], "edges": [{"source": "mongo_access_layer", "target": "env_config", "relation": "reads_mongodb_uri_and_database_name", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "memory/client.py"}], "hyperedges": []}
