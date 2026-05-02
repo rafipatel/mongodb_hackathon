@@ -1,0 +1,37 @@
+[project]
+name = "medimind"
+version = "0.1.0"
+description = "MediMind — clinical operations intelligence, always on. MongoDB Agentic Evolution Hackathon, London 2026-05-02."
+requires-python = ">=3.11"
+
+dependencies = [
+    "fastapi>=0.111",
+    "uvicorn[standard]>=0.29",
+    "langgraph>=0.2",
+    "langgraph-checkpoint-mongodb>=0.1",
+    "langchain>=0.3",
+    "langsmith>=0.1",
+    "motor>=3.4",
+    "pymongo>=4.7",
+    "voyageai>=0.2",
+    "elevenlabs>=1.0",
+    "livekit>=0.18",
+    "livekit-api>=0.7",
+    "boto3>=1.34",
+    "httpx>=0.27",
+    "python-dotenv>=1.0",
+    "pydantic>=2.7",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8",
+    "pytest-asyncio>=0.23",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["agent", "memory", "forge", "voice", "schemas"]

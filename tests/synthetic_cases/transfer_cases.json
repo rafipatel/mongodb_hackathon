@@ -1,0 +1,47 @@
+[
+  {
+    "name": "discharge_basic",
+    "input": {"patient_id": "P-001", "ward": "7B"},
+    "expects": {
+      "min_steps_initiated": 2,
+      "must_contain_role_any_of": ["pharmacy", "porter", "bed_manager"],
+      "max_escalation_minutes": 60
+    }
+  },
+  {
+    "name": "discharge_with_transport",
+    "input": {"patient_id": "P-002", "ward": "9A", "transport_required": true},
+    "expects": {
+      "min_steps_initiated": 3,
+      "must_contain_role_any_of": ["transport", "porter"],
+      "max_escalation_minutes": 60
+    }
+  },
+  {
+    "name": "intersite_transfer",
+    "input": {"patient_id": "P-003", "ward": "ITU", "destination": "UCLH"},
+    "expects": {
+      "min_steps_initiated": 4,
+      "must_contain_role_any_of": ["ambulance", "receiving_hospital", "records"],
+      "max_escalation_minutes": 30
+    }
+  },
+  {
+    "name": "missing_specimen",
+    "input": {"patient_id": "P-004", "ward": "5C"},
+    "expects": {
+      "min_steps_initiated": 1,
+      "must_contain_role_any_of": ["lab", "phlebotomy", "ward_nurse"],
+      "max_escalation_minutes": 30
+    }
+  },
+  {
+    "name": "preop_checklist",
+    "input": {"patient_id": "P-005", "ward": "Theatre"},
+    "expects": {
+      "min_steps_initiated": 2,
+      "must_contain_role_any_of": ["anaesthetics", "surgeon", "ward_nurse"],
+      "max_escalation_minutes": 45
+    }
+  }
+]

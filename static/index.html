@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MediMind — always-on clinical operations agent</title>
+<style>
+  :root {
+    --bg: #0b1020;
+    --panel: #111a33;
+    --panel-hi: #18244a;
+    --line: #1f2d56;
+    --ink: #eaf0ff;
+    --muted: #8aa0cc;
+    --accent: #7ee8b2;
+    --accent-2: #5aa9ff;
+    --warn: #ffd37a;
+    --forge: #ff7ac4;
+    --ok: #7ee8b2;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink);
+    font: 14px/1.5 -apple-system, "SF Pro Text", "Inter", system-ui, sans-serif;
+    min-height: 100vh;
+  }
+  a { color: var(--accent-2); }
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 24px; border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, #0d1530 0%, #0b1020 100%);
+    position: sticky; top: 0; z-index: 10;
+  }
+  header .brand { display: flex; align-items: center; gap: 12px; }
+  header h1 { margin: 0; font-size: 18px; letter-spacing: 0.2px; }
+  header .tag { color: var(--muted); font-size: 12px; margin-left: 6px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 999px;
+    background: var(--panel); color: var(--muted); font-size: 12px;
+    border: 1px solid var(--line);
+  }
+  .pill .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+  .pill.ok .dot { background: var(--ok); box-shadow: 0 0 8px var(--ok); }
+  .pill.bad .dot { background: #ff7a7a; }
+  .pill.warn .dot { background: var(--warn); }
+
+  .compliance {
+    margin: 10px 24px 0; padding: 8px 12px;
+    background: #201732; border: 1px solid #3d2a5e; color: #d6c9ff;
+    font-size: 12px; border-radius: 8px;
+  }
+
+  main {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 18px;
+    padding: 18px 24px 36px;
+    max-width: 1400px; margin: 0 auto;
+  }
+  @media (max-width: 980px) { main { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px; padding: 16px;
+  }
+  .card h2 { margin: 0 0 10px; font-size: 13px; letter-spacing: 0.6px;
+    text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+  textarea {
+    width: 100%; min-height: 110px; resize: vertical;
+    background: #0b1330; color: var(--ink); border: 1px solid var(--line);
+    border-radius: 10px; padding: 12px; font: inherit;
+  }
+  textarea:focus { outline: 1px solid var(--accent-2); border-color: var(--accent-2); }
+
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .row.between { justify-content: space-between; }
+  button {
+    border: 0; cursor: pointer; font: inherit;
+    padding: 10px 14px; border-radius: 10px;
+    background: var(--accent); color: #0b1020; font-weight: 600;
+  }
+  button.secondary { background: var(--panel-hi); color: var(--ink); border: 1px solid var(--line); }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip {
+    padding: 4px 9px; border-radius: 999px;
+    background: var(--panel-hi); color: var(--muted);
+    font-size: 12px; border: 1px solid var(--line); cursor: pointer;
+  }
+  .chip:hover { color: var(--ink); border-color: var(--accent-2); }
+
+  .kv { display: grid; grid-template-columns: 140px 1fr; gap: 6px 12px; font-size: 13px; }
+  .kv .k { color: var(--muted); }
+  .kv .v { color: var(--ink); word-break: break-word; }
+
+  .status-line { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+
+  .response-box {
+    padding: 14px; border-radius: 10px;
+    border: 1px solid var(--line); background: #0b1330; min-height: 60px;
+  }
+  .response-box.match { border-color: #2f6b4a; background: #0e2a1e; }
+  .response-box.forge { border-color: #7a2e65; background: #2a0e23;
+    box-shadow: 0 0 20px rgba(255, 122, 196, 0.15); }
+  .response-box .r-title {
+    font-weight: 700; letter-spacing: 0.3px;
+    display: flex; align-items: center; gap: 8px; margin-bottom: 6px;
+  }
+  .badge {
+    display: inline-block; padding: 2px 8px; border-radius: 999px;
+    font-size: 11px; letter-spacing: 0.3px; text-transform: uppercase;
+  }
+  .badge.match { background: #1b3e2d; color: var(--ok); border: 1px solid #2f6b4a; }
+  .badge.forge { background: #3c1432; color: var(--forge); border: 1px solid #7a2e65; }
+
+  .skill-row, .session-row {
+    padding: 10px 12px; border-radius: 10px;
+    border: 1px solid var(--line); margin-bottom: 8px;
+    background: #0d1632;
+  }
+  .skill-row.new, .session-row.new {
+    animation: pop 1.2s ease;
+    border-color: #7a2e65; box-shadow: 0 0 14px rgba(255, 122, 196, 0.25);
+  }
+  @keyframes pop {
+    0% { transform: scale(0.98); background: #3c1432; }
+    100% { transform: scale(1); }
+  }
+
+  .muted { color: var(--muted); }
+  .mono { font-family: "SF Mono", Menlo, monospace; font-size: 12px; }
+  .small { font-size: 12px; }
+  .big { font-size: 28px; font-weight: 700; letter-spacing: 0.3px; }
+
+  .counter-card {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; padding: 14px 16px;
+    background: linear-gradient(180deg, #132051, #0e1840);
+    border: 1px solid var(--line); border-radius: 12px;
+  }
+  .counter-card .label { color: var(--muted); text-transform: uppercase; font-size: 11px; letter-spacing: 0.8px; }
+
+  details { border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; background: #0b1330; }
+  details[open] { padding-bottom: 10px; }
+  summary { cursor: pointer; color: var(--muted); }
+  pre { margin: 8px 0 0; white-space: pre-wrap; word-break: break-word; font-size: 12px; color: #cdd7f2; }
+
+  .row-grid { display: grid; gap: 12px; }
+
+  footer {
+    padding: 16px 24px 24px; color: var(--muted); font-size: 12px; text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+      <circle cx="14" cy="14" r="12" stroke="#7ee8b2" stroke-width="1.8"/>
+      <path d="M8 14h3l2-5 3 10 2-5h4" stroke="#7ee8b2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div>
+      <h1>MediMind <span class="tag">operational coordination · always on</span></h1>
+    </div>
+  </div>
+  <div class="status-line">
+    <span id="pill-atlas" class="pill"><span class="dot"></span>Atlas</span>
+    <span id="pill-livekit" class="pill"><span class="dot"></span>LiveKit</span>
+    <span id="pill-index" class="pill"><span class="dot"></span>skill_index</span>
+  </div>
+</header>
+
+<div class="compliance">
+  <strong>Scope guardrail.</strong> MediMind coordinates operational tasks only — notifications, handovers, traces, retrievals.
+  It never provides medical advice, diagnoses, or treatment recommendations.
+</div>
+
+<main>
+
+  <section class="row-grid">
+
+    <div class="card">
+      <h2>Transcript in</h2>
+      <textarea id="transcript" placeholder="e.g. Bed 12 discharge signed, pharmacy not notified yet."></textarea>
+      <div class="row between" style="margin-top:10px;">
+        <div class="chips" id="sample-chips"></div>
+        <div class="row">
+          <button class="secondary" id="clear-btn" type="button">Clear</button>
+          <button id="send-btn" type="button">Send transcript</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Agent response</h2>
+      <div id="response" class="response-box">
+        <div class="muted small">Nothing yet. Send a transcript to invoke the agent graph (ingest → memory_lookup → route → respond).</div>
+      </div>
+      <div id="response-meta" class="kv" style="margin-top:12px; display:none;"></div>
+      <details id="response-raw" style="margin-top:10px; display:none;">
+        <summary>Raw response</summary>
+        <pre id="response-raw-json"></pre>
+      </details>
+    </div>
+
+    <div class="card">
+      <h2>Recent sessions</h2>
+      <div id="sessions"></div>
+    </div>
+
+  </section>
+
+  <section class="row-grid">
+
+    <div class="counter-card">
+      <div>
+        <div class="label">Skills in Atlas</div>
+        <div class="big" id="skill-count">–</div>
+      </div>
+      <div>
+        <div class="label">Match threshold</div>
+        <div class="big" id="threshold">0.78</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Recent skills (newest first)</h2>
+      <div id="skills"></div>
+    </div>
+
+    <div class="card">
+      <h2>How the demo works</h2>
+      <ol class="small" style="padding-left:18px; margin:0; color: var(--muted);">
+        <li>A transcript arrives (text box here, or voice via LiveKit).</li>
+        <li>We embed it with Voyage and run <code class="mono">$vectorSearch</code> over <code class="mono">MediMind.skills</code>.</li>
+        <li>If the top score ≥ 0.78 → we <strong>match</strong> an existing protocol.</li>
+        <li>Otherwise we <strong>forge</strong> a new Python coordination skill via Fireworks, validate it, store it.</li>
+        <li>Next time the same situation comes up, it's a cache hit.</li>
+      </ol>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  MongoDB Agentic Evolution Hackathon — London, 2026-05-02.
+</footer>
+
+<script>
+const $ = sel => document.querySelector(sel);
+const $$ = sel => document.querySelectorAll(sel);
+
+const samples = [
+  "Bed 12 discharge signed, pharmacy not notified yet.",
+  "Blood sample drawn on ward 3B but lab has no record of receipt.",
+  "End of shift in 20 minutes, open tasks in ward 4A not in handover.",
+  "Surgery in 2 hours, bloods and anaesthetic review still outstanding.",
+  "Patient in bed 6 needs emergency inter-site transfer to UCLH with ambulance, records, and bed confirmation simultaneously.",
+];
+
+const lastSeenSkillIds = new Set();
+const lastSeenSessionIds = new Set();
+
+function renderChips() {
+  const host = $("#sample-chips");
+  host.innerHTML = "";
+  samples.forEach(s => {
+    const c = document.createElement("button");
+    c.className = "chip";
+    c.type = "button";
+    c.textContent = s.length > 52 ? s.slice(0, 52) + "…" : s;
+    c.title = s;
+    c.addEventListener("click", () => { $("#transcript").value = s; });
+    host.appendChild(c);
+  });
+}
+
+function setPill(el, label, state, detail) {
+  el.className = "pill " + state;
+  el.innerHTML = `<span class="dot"></span>${label}${detail ? " · " + detail : ""}`;
+}
+
+async function refreshHealth() {
+  try {
+    const r = await fetch("/health");
+    const d = await r.json();
+    setPill($("#pill-atlas"), "Atlas", d.atlas ? "ok" : "bad");
+    setPill($("#pill-livekit"), "LiveKit", d.livekit ? "ok" : "warn", d.livekit ? "" : "off");
+    setPill($("#pill-index"), "skill_index",
+      d.vector_index_ready ? "ok" : "warn",
+      d.vector_index_ready ? "" : (d.vector_index_status || "building"));
+  } catch (_) {
+    setPill($("#pill-atlas"), "Atlas", "bad");
+  }
+}
+
+async function refreshSkills() {
+  try {
+    const [countR, listR] = await Promise.all([
+      fetch("/skills/count"),
+      fetch("/skills/recent?limit=8"),
+    ]);
+    const cd = await countR.json();
+    const ld = await listR.json();
+    $("#skill-count").textContent = cd.total_skills ?? "–";
+
+    const host = $("#skills");
+    const now = new Set();
+    const frag = document.createDocumentFragment();
+    (ld.skills || []).forEach(s => {
+      const id = s.id;
+      now.add(id);
+      const isNew = !lastSeenSkillIds.has(id) && lastSeenSkillIds.size > 0;
+      const origin = (s.trust_origin || "MediMind");
+      const usage = s.usage_count ?? 0;
+      const vscore = (s.validation_score ?? 0).toFixed ? (s.validation_score || 0).toFixed(2) : s.validation_score;
+      const row = document.createElement("div");
+      row.className = "skill-row" + (isNew ? " new" : "");
+      row.innerHTML = `
+        <div class="row between">
+          <div><strong>${escapeHtml(s.id)}</strong> — ${escapeHtml(s.name || "")}</div>
+          <div class="small muted">${escapeHtml(origin)} · used ${usage}× · score ${vscore}</div>
+        </div>
+        <div class="small muted" style="margin-top:4px;">${escapeHtml((s.description || "").slice(0, 180))}${(s.description||"").length>180?"…":""}</div>
+      `;
+      frag.appendChild(row);
+    });
+    host.innerHTML = "";
+    host.appendChild(frag);
+    if (lastSeenSkillIds.size > 0) {
+      now.forEach(id => lastSeenSkillIds.add(id));
+    } else {
+      now.forEach(id => lastSeenSkillIds.add(id));
+    }
+  } catch (e) {
+    console.error("refreshSkills", e);
+  }
+}
+
+async function refreshSessions() {
+  try {
+    const r = await fetch("/sessions/recent?limit=10");
+    const d = await r.json();
+    const host = $("#sessions");
+    const frag = document.createDocumentFragment();
+    (d.sessions || []).forEach(s => {
+      const sid = s.session_id;
+      const isNew = !lastSeenSessionIds.has(sid) && lastSeenSessionIds.size > 0;
+      const forged = !!s.forge_triggered;
+      const row = document.createElement("div");
+      row.className = "session-row" + (isNew ? " new" : "");
+      row.innerHTML = `
+        <div class="row between">
+          <div><span class="mono muted">${escapeHtml(sid)}</span></div>
+          <div>${forged ? '<span class="badge forge">forged</span>' : '<span class="badge match">matched</span>'}</div>
+        </div>
+        <div style="margin-top:4px;">${escapeHtml((s.transcript || "").slice(0,160))}</div>
+        <div class="small muted" style="margin-top:4px;">${escapeHtml(s.response_text || "")}</div>
+      `;
+      frag.appendChild(row);
+      lastSeenSessionIds.add(sid);
+    });
+    host.innerHTML = "";
+    host.appendChild(frag);
+  } catch (e) {
+    console.error("refreshSessions", e);
+  }
+}
+
+function escapeHtml(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+  }[c]));
+}
+
+async function sendTranscript() {
+  const text = $("#transcript").value.trim();
+  if (!text) return;
+  const btn = $("#send-btn");
+  btn.disabled = true; btn.textContent = "Sending…";
+  const box = $("#response");
+  box.className = "response-box";
+  box.innerHTML = '<div class="muted small">Invoking agent graph…</div>';
+  try {
+    const r = await fetch("/transcript", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
+    const d = await r.json();
+    renderResponse(d);
+    await Promise.all([refreshSkills(), refreshSessions()]);
+  } catch (e) {
+    box.innerHTML = '<div class="muted small">Error: ' + escapeHtml(String(e)) + '</div>';
+  } finally {
+    btn.disabled = false; btn.textContent = "Send transcript";
+  }
+}
+
+function renderResponse(d) {
+  const box = $("#response");
+  const meta = $("#response-meta");
+  const rawBlock = $("#response-raw");
+  const rawJson = $("#response-raw-json");
+
+  const forged = !!d.forge_triggered;
+  box.className = "response-box " + (forged ? "forge" : "match");
+  const badge = forged
+    ? '<span class="badge forge">new skill forged</span>'
+    : '<span class="badge match">protocol matched</span>';
+  box.innerHTML = `
+    <div class="r-title">${badge}<span>${escapeHtml(d.response || "(no response)")}</span></div>
+  `;
+
+  meta.style.display = "grid";
+  meta.innerHTML = `
+    <div class="k">session</div><div class="v mono">${escapeHtml(d.session_id || "")}</div>
+    <div class="k">best score</div><div class="v">${d.best_score != null ? Number(d.best_score).toFixed(3) : "–"}</div>
+    <div class="k">matched skill</div><div class="v mono">${escapeHtml(d.matched_skill_id || "–")}</div>
+    <div class="k">new skill</div><div class="v mono">${escapeHtml(d.new_skill_id || "–")}</div>
+  `;
+  rawBlock.style.display = "block";
+  rawJson.textContent = JSON.stringify(d, null, 2);
+}
+
+function bind() {
+  $("#send-btn").addEventListener("click", sendTranscript);
+  $("#clear-btn").addEventListener("click", () => { $("#transcript").value = ""; });
+  $("#transcript").addEventListener("keydown", (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") sendTranscript();
+  });
+}
+
+async function boot() {
+  renderChips();
+  bind();
+  await Promise.all([refreshHealth(), refreshSkills(), refreshSessions()]);
+  setInterval(refreshHealth, 8000);
+  setInterval(refreshSkills, 5000);
+  setInterval(refreshSessions, 5000);
+}
+boot();
+</script>
+</body>
+</html>
