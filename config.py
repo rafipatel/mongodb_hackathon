@@ -42,6 +42,9 @@ LIVEKIT_URL = os.environ.get("LIVEKIT_URL", "")
 LIVEKIT_API_KEY = os.environ.get("LIVEKIT_API_KEY", "")
 LIVEKIT_API_SECRET = os.environ.get("LIVEKIT_API_SECRET", "")
 LIVEKIT_ROOM = _opt("LIVEKIT_ROOM", "medimind-ward")
+# Must match @server.rtc_session(agent_name=...) on the worker. Embedded in join JWT so
+# LiveKit dispatches the agent when the browser connects (Cloud requires this pairing).
+LIVEKIT_AGENT_NAME = _opt("LIVEKIT_AGENT_NAME", "medimind")
 
 # ElevenLabs
 ELEVENLABS_API_KEY = os.environ.get("ELEVENLABS_API_KEY", "")

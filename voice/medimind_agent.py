@@ -64,6 +64,7 @@ from config import (  # noqa: E402
     ELEVENLABS_API_KEY,
     ELEVENLABS_VOICE_ID,
     FORGE_PASS_SCORE,
+    LIVEKIT_AGENT_NAME,
     SKILL_MATCH_THRESHOLD,
 )
 from forge.forge import forge_skill  # noqa: E402
@@ -153,18 +154,39 @@ def _last_assistant_text(messages: list) -> str:
 
 
 def _pending_matched_from_history(messages: list) -> dict | None:
-    """If the previous assistant turn was asking for confirmation, return the stashed context."""
+    """Find the most recent assistant turn that is still awaiting yes/no confirmation.
+
+    LiveKit may insert filler turns (reprompt, greeting) without markers — scan backward
+    past those instead of stopping at the first marker-less AIMessage (that bug dropped
+    pending state after 'Sorry, should I proceed?' so 'Yes' ran embed_and_search on 'yes').
+    """
     for m in reversed(messages):
-        if isinstance(m, AIMessage):
-            text = m.content or ""
-            if _MARK_MATCH in text:
-                ctx = getattr(m, "additional_kwargs", {}) or {}
-                return ctx.get("medimind_context") or {"mode": "match"}
-            if _MARK_FORGE in text:
-                ctx = getattr(m, "additional_kwargs", {}) or {}
-                return ctx.get("medimind_context") or {"mode": "forge"}
-            # any other assistant message → not pending
-            return None
+        if not isinstance(m, AIMessage):
+            continue
+        text = m.content or ""
+        if _MARK_MATCH in text:
+            ctx = getattr(m, "additional_kwargs", {}) or {}
+            return ctx.get("medimind_context") or {"mode": "match"}
+        if _MARK_FORGE in text:
+            ctx = getattr(m, "additional_kwargs", {}) or {}
+            return ctx.get("medimind_context") or {"mode": "forge"}
+        # Resolved / terminal replies — do not look further back for stale markers
+        if any(
+            hint in text
+            for hint in (
+                "Understood, standing by",
+                "Initiating ",
+                "Built and validated",
+                "I couldn't build a safe protocol",
+                "I had trouble reaching memory",
+                "Escalating to the duty coordinator",
+            )
+        ):
+            break
+        # Greeting or clarification — keep scanning for an older confirmation question
+        if "Sorry, should I proceed?" in text or "MediMind online" in text:
+            continue
+        break
     return None
 
 
@@ -309,9 +331,12 @@ async def route_turn(state: VoiceState) -> dict:
                 )
                 return {"messages": [reply]}
 
-        # Neither yes nor no — re-prompt
+        # Neither yes nor no — re-prompt but KEEP marker + context so the next turn still
+        # resolves pending (otherwise STT noise loses confirmation state entirely).
+        mark = _MARK_MATCH if pending.get("mode") == "match" else _MARK_FORGE
         reply = AIMessage(
-            content="Sorry, should I proceed? Please say yes or no."
+            content="Sorry, should I proceed? Please say yes or no." + mark,
+            additional_kwargs={"medimind_context": pending},
         )
         return {"messages": [reply]}
 
@@ -385,9 +410,34 @@ def prewarm(proc: JobProcess):
 server.setup_fnc = prewarm
 
 
-@server.rtc_session()
+class MediMindVoiceAgent(Agent):
+    """Voice agent with lifecycle hooks aligned with LiveKit's voice examples."""
+
+    def __init__(self) -> None:
+        super().__init__(instructions=AGENT_INSTRUCTIONS)
+
+    async def on_enter(self) -> None:
+        # Fire-and-forget like examples/voice_agents/basic_agent.py — registers speech on the session.
+        self.session.generate_reply(
+            instructions=(
+                "Greet the user in one short sentence as MediMind, and invite them to "
+                "describe an operational gap on the ward."
+            )
+        )
+
+
+@server.rtc_session(agent_name=LIVEKIT_AGENT_NAME or "")
 async def entrypoint(ctx: JobContext):
     ctx.log_context_fields = {"room": ctx.room.name}
+
+    if not (ELEVENLABS_API_KEY or "").strip():
+        logger.error(
+            "ELEVENLABS_API_KEY is missing or empty — ElevenLabs STT/TTS will not produce audio."
+        )
+    if not (ELEVENLABS_VOICE_ID or "").strip():
+        logger.error(
+            "ELEVENLABS_VOICE_ID is missing or empty — TTS publish will fail."
+        )
 
     session = AgentSession(
         vad=ctx.proc.userdata["vad"],
@@ -400,19 +450,8 @@ async def entrypoint(ctx: JobContext):
         ),
     )
 
-    await session.start(
-        agent=Agent(instructions=AGENT_INSTRUCTIONS),
-        room=ctx.room,
-    )
-    await ctx.connect()
-
-    # Greet the clinician on join so they know the line is open.
-    await session.generate_reply(
-        instructions=(
-            "Greet the user in one short sentence as MediMind, and invite them to "
-            "describe an operational gap on the ward."
-        )
-    )
+    # session.start() schedules ctx.connect() when room IO is used — do not call connect() again.
+    await session.start(agent=MediMindVoiceAgent(), room=ctx.room)
 
 
 if __name__ == "__main__":

@@ -44,7 +44,7 @@ STATIC_DIR = Path(__file__).resolve().parent / "static"
 _state = {"agent": None, "mongo_client": None, "voice_task": None}
 
 
-    async def _handle_transcript(text: str, *, execute: bool = True) -> dict:
+async def _handle_transcript(text: str, *, execute: bool = True) -> dict:
     """Run a transcript through the LangGraph agent, then (optionally) execute the skill."""
     agent = _state["agent"]
     if agent is None:

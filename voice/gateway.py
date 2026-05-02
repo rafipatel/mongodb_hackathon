@@ -12,8 +12,11 @@ import wave
 from typing import Awaitable, Callable
 
 from livekit import api, rtc
+from livekit.protocol.agent_dispatch import RoomAgentDispatch
+from livekit.protocol.room import RoomConfiguration
 
 from config import (
+    LIVEKIT_AGENT_NAME,
     LIVEKIT_API_KEY,
     LIVEKIT_API_SECRET,
     LIVEKIT_ROOM,
@@ -28,9 +31,18 @@ SAMPLES_PER_CHUNK = 16000  # 1 second @ 16kHz mono
 
 def generate_join_token(identity: str = "medimind-agent", room: str | None = None) -> str:
     token = api.AccessToken(LIVEKIT_API_KEY, LIVEKIT_API_SECRET)
+    room_name = room or LIVEKIT_ROOM
     token = token.with_identity(identity).with_grants(
-        api.VideoGrants(room_join=True, room=room or LIVEKIT_ROOM)
+        api.VideoGrants(room_join=True, room=room_name)
     )
+    # Tell LiveKit Cloud to dispatch our Agents-framework worker into this room when
+    # the participant connects (must match LIVEKIT_AGENT_NAME on the worker).
+    if LIVEKIT_AGENT_NAME:
+        rc = RoomConfiguration()
+        dispatch = RoomAgentDispatch()
+        dispatch.agent_name = LIVEKIT_AGENT_NAME
+        rc.agents.append(dispatch)
+        token = token.with_room_config(rc)
     return token.to_jwt()
 
 

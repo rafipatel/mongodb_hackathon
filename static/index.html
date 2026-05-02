@@ -503,6 +503,14 @@
         initiating any protocol. Make sure the voice agent worker is running
         (<code class="mono">uv run python voice/medimind_agent.py dev</code>).
       </div>
+      <details class="small" style="margin-top:10px; color: var(--muted);">
+        <summary style="cursor:pointer; color: var(--fg);">Example phrases</summary>
+        <ul style="margin:8px 0 0 18px; line-height:1.45;">
+          <li><strong>Likely cache hit</strong> (seeded demo): “Bed 12 discharge signed, pharmacy not notified yet.”</li>
+          <li><strong>After MediMind asks</strong> “Shall I initiate?” / forge question: answer with a clear <strong>Yes</strong> or <strong>No</strong> — quiet mic helps; noise can trigger a reprompt.</li>
+          <li><strong>Novel gap</strong> (forge path): describe the operational issue in one sentence; if offered a new protocol, say <strong>Yes</strong> to build and run it.</li>
+        </ul>
+      </details>
     </div>
 
     <div class="card">
@@ -1020,9 +1028,19 @@ const lk = {
       if (track.kind === Track.Kind.Audio) {
         const el = track.attach();
         el.autoplay = true;
+        if ("playsInline" in el) el.playsInline = true;
         el.style.display = "none";
         document.body.appendChild(el);
         this.audioElements.push(el);
+        el.play().catch((err) => {
+          console.warn("LiveKit agent audio autoplay blocked:", err);
+          this.setState(
+            "live",
+            "Tap the speaker control — browser blocked autoplay for agent audio."
+          );
+          el.controls = true;
+          el.style.display = "";
+        });
       }
     });
     room.on(RoomEvent.TrackUnsubscribed, (track) => {
