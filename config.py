@@ -49,6 +49,7 @@ LIVEKIT_AGENT_NAME = _opt("LIVEKIT_AGENT_NAME", "medimind")
 # ElevenLabs
 ELEVENLABS_API_KEY = os.environ.get("ELEVENLABS_API_KEY", "")
 ELEVENLABS_VOICE_ID = os.environ.get("ELEVENLABS_VOICE_ID", "")
+ELEVENLABS_STT_LANGUAGE = _opt("ELEVENLABS_STT_LANGUAGE", "en")
 
 # Discord notifications (webhook URL — text + audio attachments)
 DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL", "")

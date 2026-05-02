@@ -4,7 +4,10 @@
       "Bash(awk -F= '/=/ {key=$1; sub\\(/^[^=]+=/, \"\", $0\\); val=$0; if \\(length\\(val\\) > 0\\) print key\" = SET \\(\"length\\(val\\)\" chars\\)\"; else print key\" = EMPTY\"}' .env)",
       "Bash(python -c ' *)",
       "Bash(python3 -c ' *)",
-      "Bash(uv --version)"
+      "Bash(uv --version)",
+      "Bash(curl -s http://localhost:8000/livekit/token?identity=clinician)",
+      "Bash(curl -s \"http://localhost:8000/livekit/token?identity=clinician\")",
+      "Bash(ps -o pid,etime,command -p 4286 4290 5070)"
     ]
   }
 }

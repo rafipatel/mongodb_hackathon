@@ -62,6 +62,7 @@ load_dotenv(_PROJECT_ROOT / ".env")
 
 from config import (  # noqa: E402
     ELEVENLABS_API_KEY,
+    ELEVENLABS_STT_LANGUAGE,
     ELEVENLABS_VOICE_ID,
     FORGE_PASS_SCORE,
     LIVEKIT_AGENT_NAME,
@@ -210,9 +211,18 @@ def _skill_name_for_voice(skill: dict) -> str:
 # The one node — called on every user turn by the LLMAdapter
 # ---------------------------------------------------------------------------
 
+_NOISE_ONLY_RE = re.compile(r"^(\s*\([^)]*\)\s*)+$")
+
+
 async def route_turn(state: VoiceState) -> dict:
     messages = state.get("messages", [])
     user_text = _last_user_text(messages)
+
+    # STT noise hallucinations look like "(people chattering)" / "(배경 소음)" — ignore them
+    # so they don't stomp the greeting or trigger vector search on garbage.
+    if user_text and _NOISE_ONLY_RE.match(user_text):
+        logger.info("[medimind-voice] dropping STT noise transcript: %r", user_text)
+        return {"messages": []}
 
     if not user_text:
         reply = AIMessage(
@@ -417,12 +427,11 @@ class MediMindVoiceAgent(Agent):
         super().__init__(instructions=AGENT_INSTRUCTIONS)
 
     async def on_enter(self) -> None:
-        # Fire-and-forget like examples/voice_agents/basic_agent.py — registers speech on the session.
-        self.session.generate_reply(
-            instructions=(
-                "Greet the user in one short sentence as MediMind, and invite them to "
-                "describe an operational gap on the ward."
-            )
+        # Speak a fixed greeting (not generate_reply): STT noise hallucinations on connect can
+        # otherwise race the LLM and stomp the greeting before TTS plays it.
+        self.session.say(
+            "MediMind online. Describe an operational gap and I will check my protocols.",
+            allow_interruptions=False,
         )
 
 
@@ -441,7 +450,14 @@ async def entrypoint(ctx: JobContext):
 
     session = AgentSession(
         vad=ctx.proc.userdata["vad"],
-        stt=elevenlabs.STT(api_key=ELEVENLABS_API_KEY),
+        # language_code pins STT to English; tag_audio_events=False suppresses
+        # "(people chattering)" / "(배경 소음)" noise descriptions that otherwise fire
+        # bogus user turns and trigger embed/search on garbage.
+        stt=elevenlabs.STT(
+            api_key=ELEVENLABS_API_KEY,
+            language_code=ELEVENLABS_STT_LANGUAGE,
+            tag_audio_events=False,
+        ),
         llm=langchain.LLMAdapter(graph=_voice_graph),
         tts=elevenlabs.TTS(
             voice_id=ELEVENLABS_VOICE_ID,

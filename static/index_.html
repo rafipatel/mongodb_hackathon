@@ -170,127 +170,13 @@
   }
 
   main {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 18px;
     padding: 18px 24px 36px;
-    max-width: 1540px;
-    margin: 0 auto;
+    max-width: 1400px; margin: 0 auto;
   }
-
-  /* ----- Dashboard primary: transcript | voice | stats ---------------------------- */
-  .dash-primary {
-    display: grid;
-    grid-template-columns: minmax(260px, 26%) minmax(380px, 1fr) minmax(124px, 11%);
-    gap: 18px;
-    align-items: stretch;
-  }
-  .dash-col-left {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    min-width: 0;
-  }
-  .dash-col-center {
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-  }
-  .dash-col-center .voice-card {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 540px;
-    padding: 20px;
-    border-radius: 16px;
-    border-width: 1px;
-    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
-  }
-  .dash-col-center .voice-card > .row.between:first-of-type h2 {
-    margin: 0 0 6px;
-    font-size: 15px;
-    letter-spacing: 0.04em;
-    text-transform: none;
-    color: var(--ink);
-    font-weight: 650;
-  }
-  .dash-col-center .voice-card > .row.between:first-of-type {
-    flex-shrink: 0;
-  }
-  .dash-col-center .conv-feed {
-    flex: 1;
-    min-height: 240px;
-    max-height: min(50vh, 440px);
-  }
-  .dash-stats-corner {
-    position: sticky;
-    top: 72px;
-    align-self: start;
-    background: linear-gradient(160deg, #151f42 0%, #0f1738 100%);
-    border: 1px solid rgba(90, 169, 255, 0.22);
-    border-radius: 12px;
-    padding: 12px 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .dash-stats-corner .stat-row {
-    text-align: right;
-  }
-  .dash-stats-corner .stat-row .label {
-    font-size: 9px;
-    letter-spacing: 0.7px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 2px;
-  }
-  .dash-stats-corner .stat-row .stat-val {
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 1.1;
-    color: var(--ink);
-    font-variant-numeric: tabular-nums;
-  }
-  @media (max-width: 1100px) {
-    .dash-primary {
-      grid-template-columns: 1fr;
-    }
-    .dash-stats-corner {
-      position: static;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 14px;
-      order: -1;
-    }
-    .dash-stats-corner .stat-row { text-align: center; flex: 1; }
-    .dash-col-center { order: 0; }
-    .dash-col-left { order: 1; }
-    .dash-col-center .voice-card { min-height: 420px; }
-  }
-
-  .dash-secondary {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-  .dash-tertiary {
-    display: grid;
-    grid-template-columns: 1fr 1.1fr 0.95fr;
-    gap: 18px;
-    align-items: start;
-  }
-  @media (max-width: 980px) {
-    .dash-tertiary { grid-template-columns: 1fr; }
-  }
-
-  .dash-col-left > .card > h2 {
-    text-transform: none;
-    letter-spacing: 0.06em;
-    font-size: 12px;
-    font-weight: 650;
-    color: var(--muted);
-  }
+  @media (max-width: 980px) { main { grid-template-columns: 1fr; } }
 
   .card {
     background: var(--panel); border: 1px solid var(--line);
@@ -366,11 +252,20 @@
   .small { font-size: 12px; }
   .big { font-size: 28px; font-weight: 700; letter-spacing: 0.3px; }
 
+  .counter-card {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; padding: 14px 16px;
+    background: linear-gradient(180deg, #132051, #0e1840);
+    border: 1px solid var(--line); border-radius: 12px;
+  }
+  .counter-card .label { color: var(--muted); text-transform: uppercase; font-size: 11px; letter-spacing: 0.8px; }
+
+  details { border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; background: #0b1330; }
   details[open] { padding-bottom: 10px; }
   summary { cursor: pointer; color: var(--muted); }
   pre { margin: 8px 0 0; white-space: pre-wrap; word-break: break-word; font-size: 12px; color: #cdd7f2; }
 
-  details { border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; background: #0b1330; }
+  .row-grid { display: grid; gap: 12px; }
 
   footer {
     padding: 16px 24px 24px; color: var(--muted); font-size: 12px; text-align: center;
@@ -381,10 +276,6 @@
   .voice-card.live {
     border-color: rgba(126,232,178,0.4);
     box-shadow: 0 0 22px rgba(126,232,178,0.18);
-  }
-  .voice-card.voice-card-wait:not(.live) {
-    border-color: rgba(255, 211, 122, 0.42);
-    box-shadow: 0 0 20px rgba(255, 211, 122, 0.12);
   }
   .voice-state {
     display: inline-flex; align-items: center; gap: 8px;
@@ -417,51 +308,6 @@
     font-size: 10px; letter-spacing: 0.8px; text-transform: uppercase;
     color: var(--muted); margin-bottom: 2px;
   }
-  .lk-activity {
-    margin-top: 10px;
-    font-size: 11px;
-    color: var(--muted);
-  }
-  .lk-activity-head {
-    font-weight: 600;
-    color: var(--fg);
-    margin-bottom: 4px;
-    font-size: 11px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-  .lk-activity-log {
-    max-height: 168px;
-    overflow-y: auto;
-    padding: 8px 10px;
-    border-radius: 10px;
-    border: 1px solid var(--line);
-    background: #080f28;
-    font-family: "SF Mono", Menlo, ui-monospace, monospace;
-    line-height: 1.35;
-  }
-  .lk-act-row {
-    padding: 3px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    word-break: break-word;
-    white-space: pre-wrap;
-  }
-  .lk-act-row:last-child { border-bottom: 0; }
-
-  .lk-reconnect-hint {
-    margin-top: 10px;
-    padding: 10px 12px;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 122, 122, 0.48);
-    background: rgba(255, 82, 82, 0.09);
-    color: #f0c8c8;
-    font-size: 13px;
-    line-height: 1.4;
-  }
-  .lk-reconnect-hint[hidden] {
-    display: none !important;
-  }
-
   @keyframes fadeIn {
     0%   { opacity: 0; transform: translateY(4px); }
     100% { opacity: 1; transform: translateY(0); }
@@ -637,114 +483,66 @@
 
 <main>
 
-  <section class="dash-primary" aria-label="Dashboard workspace">
+  <section class="row-grid">
 
-    <div class="dash-col-left">
-      <div class="card">
-        <h2>Direct transcript</h2>
-        <p class="small muted" style="margin:-6px 0 10px;">Text path to the same agent graph — independent of LiveKit.</p>
-        <textarea id="transcript" placeholder="e.g. Bed 12 discharge signed, pharmacy not notified yet. Or press Talk and speak."></textarea>
-        <div class="row between" style="margin-top:10px;">
-          <div class="chips" id="sample-chips"></div>
-          <div class="row">
-            <label class="small muted" style="display:flex; align-items:center; gap:6px;">
-              <input type="checkbox" id="auto-speak" checked /> auto-speak reply
-            </label>
-            <button class="secondary" id="mic-btn" type="button" title="Voice input (Chrome/Edge)">🎙 Talk</button>
-            <button class="secondary" id="clear-btn" type="button">Clear</button>
-            <button id="send-btn" type="button">Send transcript</button>
-          </div>
+    <div class="card voice-card" id="voice-card">
+      <div class="row between" style="align-items:flex-start;">
+        <div>
+          <h2 style="margin-bottom:6px;">Voice room · LiveKit</h2>
+          <div class="voice-state" id="lk-state"><span class="sdot"></span><span id="lk-state-text">Not connected</span></div>
         </div>
-        <div id="voice-status" class="small muted" style="margin-top:6px;">Voice idle.</div>
-        <audio id="reply-audio" style="display:none;" preload="auto"></audio>
-      </div>
-
-      <div class="card">
-        <h2>Agent response</h2>
-        <div id="response" class="response-box">
-          <div class="muted small">Nothing yet. Send a transcript to invoke the agent graph (ingest → memory_lookup → route → respond).</div>
+        <div class="row">
+          <button id="lk-join" class="primary-cta" type="button">🎤 Join voice room</button>
+          <button id="lk-leave" class="danger" type="button" style="display:none;">Leave</button>
         </div>
-        <div id="response-meta" class="kv" style="margin-top:12px; display:none;"></div>
-        <details id="response-raw" style="margin-top:10px; display:none;">
-          <summary>Raw response</summary>
-          <pre id="response-raw-json"></pre>
-        </details>
       </div>
+      <div class="level-bar" id="lk-level" data-level="0" aria-hidden="true"></div>
+      <div class="conv-feed" id="lk-conversation"></div>
+      <div class="small muted" style="margin-top:6px;">
+        Speak naturally — MediMind uses Silero VAD for turn-taking and confirms before
+        initiating any protocol. Make sure the voice agent worker is running
+        (<code class="mono">uv run python voice/medimind_agent.py dev</code>).
+      </div>
+      <details class="small" style="margin-top:10px; color: var(--muted);">
+        <summary style="cursor:pointer; color: var(--fg);">Example phrases</summary>
+        <ul style="margin:8px 0 0 18px; line-height:1.45;">
+          <li><strong>Likely cache hit</strong> (seeded demo): “Bed 12 discharge signed, pharmacy not notified yet.”</li>
+          <li><strong>After MediMind asks</strong> “Shall I initiate?” / forge question: answer with a clear <strong>Yes</strong> or <strong>No</strong> — quiet mic helps; noise can trigger a reprompt.</li>
+          <li><strong>Novel gap</strong> (forge path): describe the operational issue in one sentence; if offered a new protocol, say <strong>Yes</strong> to build and run it.</li>
+        </ul>
+      </details>
     </div>
 
-    <div class="dash-col-center">
-      <div class="card voice-card" id="voice-card">
-        <div class="row between" style="align-items:flex-start;">
-          <div>
-            <h2>Voice · LiveKit</h2>
-            <div class="voice-state" id="lk-state"><span class="sdot"></span><span id="lk-state-text">Not connected</span></div>
-          </div>
-          <div class="row">
-            <button id="lk-join" class="primary-cta" type="button">🎤 Join voice room</button>
-            <button id="lk-leave" class="danger" type="button" style="display:none;">Leave</button>
-          </div>
+    <div class="card">
+      <h2>Transcript in</h2>
+      <textarea id="transcript" placeholder="e.g. Bed 12 discharge signed, pharmacy not notified yet. Or press Talk and speak."></textarea>
+      <div class="row between" style="margin-top:10px;">
+        <div class="chips" id="sample-chips"></div>
+        <div class="row">
+          <label class="small muted" style="display:flex; align-items:center; gap:6px;">
+            <input type="checkbox" id="auto-speak" checked /> auto-speak reply
+          </label>
+          <button class="secondary" id="mic-btn" type="button" title="Voice input (Chrome/Edge)">🎙 Talk</button>
+          <button class="secondary" id="clear-btn" type="button">Clear</button>
+          <button id="send-btn" type="button">Send transcript</button>
         </div>
-        <div class="level-bar" id="lk-level" data-level="0" aria-hidden="true"></div>
-        <div id="lk-reconnect-hint" class="lk-reconnect-hint" hidden role="status"></div>
-        <div class="conv-feed" id="lk-conversation"></div>
-        <div id="lk-activity" class="lk-activity" aria-live="polite">
-          <div class="lk-activity-head">MediMind activity (pipeline)</div>
-          <div id="lk-activity-log" class="lk-activity-log"></div>
-        </div>
-        <div class="small muted" style="margin-top:8px;">
-          Voice uses <strong>two</strong> processes: this dashboard (<code class="mono">uvicorn server:app …</code>)
-          <em>and</em> the LiveKit worker (<code class="mono">uv run python voice/medimind_agent.py dev</code>).
-          MediMind confirms before running a protocol.
-        </div>
-        <p class="small muted" style="margin:8px 0 0; padding:8px 10px; border-radius:8px; border:1px solid rgba(255,211,122,0.35); background:rgba(255,211,122,0.06);">
-          <strong style="color:var(--warn);">After you restart either terminal</strong> — press <strong>Join voice room</strong> again once both are up. If you stayed connected without doing that, the UI looked fine but the agent was gone; now we auto-reset when the agent leaves and show a <strong style="color:#ff9494;">red banner</strong>. Prefer worker → uvicorn → Join order after restarts.
-        </p>
-        <details class="small" style="margin-top:10px; color: var(--muted);">
-          <summary style="cursor:pointer; color: var(--fg);">If voice fails after stop / restart</summary>
-          <ul style="margin:8px 0 0 18px; line-height:1.45;">
-            <li><strong>Stale connection (most common).</strong> Stopping the <strong>worker</strong> tears down the agent’s LiveKit session. The browser often <em>stays</em> in the room without a new agent until you <strong>Leave → Join</strong> to request dispatch again with a fresh token. Do this after restarting <strong>uvicorn</strong> or the <strong>worker</strong>.</li>
-            <li><strong><code class="mono">uvicorn --reload</code>.</strong> Any saved <code class="mono">.py</code> / static file restarts the API server; that won’t restart the worker, but it can coincide with weird client state. For a stable demo, run without <code class="mono">--reload</code> or always <strong>Leave → Join</strong> after the server restarts.</li>
-            <li><strong>Start both again.</strong> Reloading only the browser or only uvicorn does not restart the worker — and stopping uvicorn does not kill the worker process (they are separate).</li>
-            <li><strong>One worker only.</strong> Run a single <code class="mono">medimind_agent.py dev</code>. A leftover copy still bound to the same <code class="mono">LIVEKIT_AGENT_NAME</code> can block dispatch or confuse LiveKit Cloud.</li>
-            <li><strong>Reset the browser session.</strong> Click <strong>Leave</strong>, wait a moment, then <strong>Join voice room</strong> again — or hard-refresh the page. Tokens and WebRTC state from an old run often stick in the tab.</li>
-            <li><strong>Give Cloud a beat.</strong> Right after the worker starts, the agent may take a few seconds to register; if the room is empty on first join, Leave → Join once.</li>
-            <li><strong>Flaky Wi‑Fi / VPN / sleep.</strong> LiveKit will try to reconnect automatically; watch the activity log for “reconnecting”. If it drops entirely, Leave → Join. Background tabs can still stall WebRTC in some browsers — keep the tab focused while testing.</li>
-            <li><strong>Still dead?</strong> Set <code class="mono">MEDIMIND_VOICE_DIAG=0</code> in the environment before starting the worker (disables pipeline debug packets) if you suspect a LiveKit data-channel issue.</li>
-            <li><strong>Check <code class="mono">GET /health</code>.</strong> “LiveKit” only means URL + API keys are set; voice still needs the worker process.</li>
-          </ul>
-        </details>
-        <details class="small" style="margin-top:10px; color: var(--muted);">
-          <summary style="cursor:pointer; color: var(--fg);">Example phrases</summary>
-          <ul style="margin:8px 0 0 18px; line-height:1.45;">
-            <li><strong>Discharge chain</strong> (seed <span class="mono">PT-0001</span>): “Discharge is signed on ward 7 but pharmacy hasn’t been told — bed 12 still waiting on meds and a porter.”</li>
-            <li><strong>Discharge — shorter</strong>: “Bed 4 discharge paperwork done; nobody paged pharmacy or porters.”</li>
-            <li><strong>Specimen trace</strong> (seed <span class="mono">PT-0002</span>): “Blood draw this morning on ward 3 — lab says they never received the tube.”</li>
-            <li><strong>Shift handover</strong> (seed <span class="mono">PT-0003</span>): “Shift ends in twenty minutes and ward 5 still has open tasks not documented in handover.”</li>
-            <li><strong>Likely cache hit</strong> (classic demo line): “Bed 12 discharge signed, pharmacy not notified yet.”</li>
-            <li><strong>Include ward + bed</strong> when you can — notifications use them in outbound messages: “… on <strong>ward 7</strong> … <strong>bed 12</strong> …”</li>
-            <li><strong>After “Shall I initiate?”</strong> — say <strong>Yes</strong>, <strong>Go ahead</strong>, or <strong>Proceed</strong>; after “build a new protocol?” — same, or <strong>No thanks</strong> / <strong>Cancel</strong> to stop.</li>
-            <li><strong>If MediMind reprompts</strong> (“Sorry, should I proceed?”): repeat <strong>Yes</strong> or <strong>No</strong> clearly; reduce background noise.</li>
-            <li><strong>Novel gap</strong> (forge path): one sentence on something not covered above — e.g. “MRI slot freed but transport never booked for ward 2 bed 8”; say <strong>Yes</strong> if asked to forge and run.</li>
-            <li><strong>Open-ended opener</strong>: “MediMind online…” → describe any coordination gap in plain language; you’ll get either a match or a forge offer.</li>
-          </ul>
-        </details>
       </div>
+      <div id="voice-status" class="small muted" style="margin-top:6px;">Voice idle.</div>
+      <audio id="reply-audio" style="display:none;" preload="auto"></audio>
     </div>
 
-    <aside class="dash-stats-corner" aria-label="Atlas snapshot">
-      <div class="stat-row">
-        <div class="label">Skills in Atlas</div>
-        <div class="stat-val" id="skill-count">–</div>
+    <div class="card">
+      <h2>Agent response</h2>
+      <div id="response" class="response-box">
+        <div class="muted small">Nothing yet. Send a transcript to invoke the agent graph (ingest → memory_lookup → route → respond).</div>
       </div>
-      <div class="stat-row">
-        <div class="label">Match threshold</div>
-        <div class="stat-val" id="threshold">0.78</div>
-      </div>
-    </aside>
+      <div id="response-meta" class="kv" style="margin-top:12px; display:none;"></div>
+      <details id="response-raw" style="margin-top:10px; display:none;">
+        <summary>Raw response</summary>
+        <pre id="response-raw-json"></pre>
+      </details>
+    </div>
 
-  </section>
-
-  <section class="dash-secondary">
     <div class="card notify-card">
       <h2>Notifications fan-out <span class="count-badge" id="notify-count">0</span></h2>
       <div class="small muted" style="margin-bottom:8px;">
@@ -753,27 +551,43 @@
       </div>
       <div id="notifications"></div>
     </div>
-  </section>
 
-  <section class="dash-tertiary">
     <div class="card">
       <h2>Recent sessions</h2>
       <div id="sessions"></div>
     </div>
+
+  </section>
+
+  <section class="row-grid">
+
+    <div class="counter-card">
+      <div>
+        <div class="label">Skills in Atlas</div>
+        <div class="big" id="skill-count">–</div>
+      </div>
+      <div>
+        <div class="label">Match threshold</div>
+        <div class="big" id="threshold">0.78</div>
+      </div>
+    </div>
+
     <div class="card">
       <h2>Recent skills (newest first)</h2>
       <div id="skills"></div>
     </div>
+
     <div class="card">
       <h2>How the demo works</h2>
       <ol class="small" style="padding-left:18px; margin:0; color: var(--muted);">
-        <li>A transcript arrives (direct text, or voice via LiveKit).</li>
+        <li>A transcript arrives (text box here, or voice via LiveKit).</li>
         <li>We embed it with Voyage and run <code class="mono">$vectorSearch</code> over <code class="mono">MediMind.skills</code>.</li>
-        <li>If the top score ≥ threshold → we <strong>match</strong> an existing protocol.</li>
+        <li>If the top score ≥ 0.78 → we <strong>match</strong> an existing protocol.</li>
         <li>Otherwise we <strong>forge</strong> a new Python coordination skill via Fireworks, validate it, store it.</li>
         <li>Next time the same situation comes up, it's a cache hit.</li>
       </ol>
     </div>
+
   </section>
 
 </main>
@@ -783,7 +597,7 @@
 </footer>
 
 <script type="module">
-import { ConnectionState, DisconnectReason, Room, RoomEvent, Track } from "https://esm.sh/livekit-client@2.15.0";
+import { Room, RoomEvent, Track } from "https://esm.sh/livekit-client@2.15.0";
 
 const $ = sel => document.querySelector(sel);
 const $$ = sel => document.querySelectorAll(sel);
@@ -830,18 +644,13 @@ async function refreshHealth() {
     const r = await fetch("/health");
     const d = await r.json();
     setPill($("#pill-atlas"), "Atlas", d.atlas ? "ok" : "bad");
-    setPill($("#pill-livekit"), "LiveKit", d.livekit ? "ok" : "warn",
-      d.livekit ? "run worker in 2nd terminal" : "off");
+    setPill($("#pill-livekit"), "LiveKit", d.livekit ? "ok" : "warn", d.livekit ? "" : "off");
     setPill($("#pill-tts"), "ElevenLabs", d.tts ? "ok" : "warn", d.tts ? "" : "off");
     setPill($("#pill-discord"), "Discord", d.discord ? "ok" : "warn", d.discord ? "" : "off");
     setPill($("#pill-index"), "skill_index",
       d.vector_index_ready ? "ok" : "warn",
       d.vector_index_ready ? "" : (d.vector_index_status || "building"));
     window._ttsEnabled = !!d.tts;
-    const thEl = $("#threshold");
-    if (thEl && d.match_threshold != null && !Number.isNaN(Number(d.match_threshold))) {
-      thEl.textContent = Number(d.match_threshold).toFixed(2);
-    }
   } catch (_) {
     setPill($("#pill-atlas"), "Atlas", "bad");
   }
@@ -1136,83 +945,12 @@ function renderResponse(d) {
 
 // --- LiveKit voice room ---------------------------------------------------
 
-/** Hide embedded voice context blobs / markers from on-screen bubbles (still on wire for state). */
-function stripVoiceArtifactsForDisplay(text) {
-  if (text == null || text === "") return text;
-  let s = String(text);
-  s = s.replace(/\u2064[\s\S]*?\u2065/g, "");
-  s = s.replace(/[\u200b\u200c\u200d]/g, "");
-  return s.trim();
-}
-
-function disconnectReasonLabel(code) {
-  if (code === undefined || code === null) return "";
-  const pairs = Object.entries(DisconnectReason).filter(([, v]) => typeof v === "number");
-  const hit = pairs.find(([, v]) => v === code);
-  return hit ? hit[0].replace(/_/g, " ").toLowerCase() : `code ${code}`;
-}
-
-function withTimeout(promise, ms, message) {
-  let id;
-  const timeout = new Promise((_, rej) => {
-    id = setTimeout(() => rej(new Error(message)), ms);
-  });
-  return Promise.race([promise, timeout]).finally(() => clearTimeout(id));
-}
-
 const lk = {
   room: null,
-  joining: false,
-  agentWatchdog: null,
-  remoteGoneDebounce: null,
-  intentionalLeave: false,
-  micBlocked: false,
   audioElements: [],
   interimBubble: { user: null, agent: null },
   state: "idle",
   attachedAudio: false,
-
-  clearAgentWatchdog() {
-    if (this.agentWatchdog != null) {
-      clearTimeout(this.agentWatchdog);
-      this.agentWatchdog = null;
-    }
-  },
-
-  clearRemoteGoneDebounce() {
-    if (this.remoteGoneDebounce != null) {
-      clearTimeout(this.remoteGoneDebounce);
-      this.remoteGoneDebounce = null;
-    }
-  },
-
-  clearReconnectHint() {
-    const el = $("#lk-reconnect-hint");
-    if (!el) return;
-    el.hidden = true;
-    el.textContent = "";
-  },
-
-  showReconnectHint(text) {
-    const el = $("#lk-reconnect-hint");
-    if (!el) return;
-    el.hidden = false;
-    el.textContent = text;
-  },
-
-  /** Connected to LiveKit ≠ MediMind worker joined. Don't promise voice until a remote participant exists. */
-  updateJoinedStatus(room) {
-    if (!room || this.room !== room || this.intentionalLeave) return;
-    if (this.state === "error") return;
-    if (this.micBlocked) return;
-    try {
-      if (room.remoteParticipants.size > 0) {
-        this.setState("live", "MediMind linked — speak naturally.");
-      } else if (room.state === ConnectionState.Connected) {
-        this.setState("connecting", "In room — waiting for MediMind agent…");
-      }
-    } catch (_) { /* ignore */ }
-  },
 
   setState(state, text) {
     this.state = state;
@@ -1220,10 +958,7 @@ const lk = {
     el.className = "voice-state " + (state === "idle" ? "" : state);
     $("#lk-state-text").textContent = text;
     const card = $("#voice-card");
-    if (card) {
-      card.classList.toggle("live", state === "live" || state === "speaking");
-      card.classList.toggle("voice-card-wait", state === "connecting");
-    }
+    card.classList.toggle("live", state === "live" || state === "speaking");
     const join = $("#lk-join"), leave = $("#lk-leave");
     if (state === "idle" || state === "error") { join.style.display = ""; leave.style.display = "none"; }
     else { join.style.display = "none"; leave.style.display = ""; }
@@ -1238,38 +973,8 @@ const lk = {
     this.interimBubble = { user: null, agent: null };
   },
 
-  clearActivity() {
-    const log = $("#lk-activity-log");
-    if (log) log.innerHTML = "";
-  },
-
-  pushActivity(o) {
-    const log = $("#lk-activity-log");
-    if (!log) return;
-    const ts = new Date().toLocaleTimeString(undefined, {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    });
-    let msg = "";
-    if (o.kind === "agent_state") msg = `Agent state: ${o.from} → ${o.to}`;
-    else if (o.kind === "user_heard") msg = `You (heard): ${o.text}`;
-    else if (o.kind === "assistant_text") msg = `Assistant text: ${o.text}`;
-    else if (o.kind === "error") msg = `Error: ${o.detail}`;
-    else if (o.kind === "_local") msg = o.detail || "";
-    else msg = typeof o === "string" ? o : JSON.stringify(o);
-    const row = document.createElement("div");
-    row.className = "lk-act-row";
-    row.textContent = `[${ts}] ${msg}`;
-    log.appendChild(row);
-    while (log.children.length > 140) log.removeChild(log.firstChild);
-    log.scrollTop = log.scrollHeight;
-  },
-
   addTurn(who, text, isInterim = false) {
-    const raw = (text || "").trim();
-    const displayText = who === "agent" ? stripVoiceArtifactsForDisplay(raw) : raw;
-    if (!displayText || !displayText.trim()) return;
+    if (!text || !text.trim()) return;
     const host = $("#lk-conversation");
     const role = who === "agent" ? "agent" : "user";
     const label = who === "agent" ? "MediMind" : "You";
@@ -1283,19 +988,19 @@ const lk = {
         host.appendChild(bubble);
         this.interimBubble[role] = bubble;
       }
-      bubble.querySelector(".body").textContent = displayText;
+      bubble.querySelector(".body").textContent = text;
     } else {
       // commit interim -> final
       const bubble = this.interimBubble[role];
       if (bubble) {
         bubble.classList.remove("interim");
-        bubble.querySelector(".body").textContent = displayText;
+        bubble.querySelector(".body").textContent = text;
         this.interimBubble[role] = null;
       } else {
         const el = document.createElement("div");
         el.className = "conv-turn " + role;
         el.innerHTML = `<div class="who">${label}</div><div class="body"></div>`;
-        el.querySelector(".body").textContent = displayText;
+        el.querySelector(".body").textContent = text;
         host.appendChild(el);
       }
     }
@@ -1303,128 +1008,23 @@ const lk = {
   },
 
   async join() {
-    if (this.joining) return;
-    // Stale JS Room handle after ICE/server teardown blocks rejoin (`if (this.room) return`).
-    if (this.room && this.room.state === ConnectionState.Disconnected) {
-      this.cleanupAudio();
-      this.room = null;
-    }
     if (this.room) return;
-    this.joining = true;
-
     this.setState("connecting", "Requesting token…");
-    this.clearActivity();
-    this.clearReconnectHint();
-    this.clearAgentWatchdog();
-    this.clearRemoteGoneDebounce();
-    this.micBlocked = false;
 
     let d;
     try {
       const r = await fetch("/livekit/token?identity=clinician");
       if (!r.ok) throw new Error("token endpoint returned " + r.status);
       d = await r.json();
-      if (d.agent_dispatch === false) {
-        this.showReconnectHint(
-          "Join token had no agent dispatch (LIVEKIT_AGENT_NAME blank when server started). Set LIVEKIT_AGENT_NAME in .env, restart uvicorn, then Leave → Join."
-        );
-        this.pushActivity({
-          kind: "_local",
-          detail:
-            "LiveKit: agent_dispatch=false — fix LIVEKIT_AGENT_NAME and restart the API server.",
-        });
-      }
     } catch (e) {
       this.setState("error", "Token error — " + e.message);
-      this.pushActivity({ kind: "_local", detail: "Token error — " + e.message });
-      this.joining = false;
       return;
     }
 
-    const reconnectPolicy = {
-      nextRetryDelayInMs(ctx) {
-        if (ctx.retryCount < 10) return Math.min(15_000, 400 * 2 ** ctx.retryCount);
-        return null;
-      },
-    };
-
-    const room = new Room({
-      adaptiveStream: true,
-      dynacast: true,
-      disconnectOnPageLeave: false,
-      reconnectPolicy,
-    });
+    const room = new Room({ adaptiveStream: true, dynacast: true });
     this.room = room;
 
-    const mmDiagTopic = "medimind.diag";
-    const onMmDiag = (payload, _participant, _kind, topic) => {
-      if (topic !== mmDiagTopic) return;
-      try {
-        const o = JSON.parse(new TextDecoder().decode(payload));
-        if (o.source !== "medimind") return;
-        lk.pushActivity(o);
-      } catch (_) { /* ignore malformed packets */ }
-    };
-    const dataEv = RoomEvent.DataReceived ?? "dataReceived";
-    room.on(dataEv, onMmDiag);
-
-    room.on(RoomEvent.Reconnecting, () => {
-      this.setState("connecting", "LiveKit reconnecting…");
-      this.pushActivity({ kind: "_local", detail: "LiveKit reconnecting (signal / ICE)…" });
-    });
-    room.on(RoomEvent.Reconnected, () => {
-      this.pushActivity({ kind: "_local", detail: "LiveKit reconnected." });
-      this.updateJoinedStatus(room);
-    });
-
-    room.on(RoomEvent.ParticipantConnected, (participant) => {
-      if (!participant || participant === room.localParticipant) return;
-      this.clearRemoteGoneDebounce();
-      const hintEl = $("#lk-reconnect-hint");
-      const hadHint = hintEl && !hintEl.hidden;
-      this.clearReconnectHint();
-      if (hadHint) {
-        this.pushActivity({ kind: "_local", detail: "Remote participant joined again (agent likely back)." });
-      }
-      this.updateJoinedStatus(room);
-    });
-
-    room.on(RoomEvent.ParticipantDisconnected, (participant) => {
-      if (this.intentionalLeave) return;
-      if (!participant || participant === room.localParticipant) return;
-      if (this.room !== room) return;
-      // Don't disconnect immediately: brief agent/ICE flaps fire this too and kill the clinician
-      // session (CLIENT_INITIATED in worker logs). Only reset after nobody remote is left for a beat.
-      this.clearRemoteGoneDebounce();
-      this.remoteGoneDebounce = setTimeout(() => {
-        this.remoteGoneDebounce = null;
-        if (lk.intentionalLeave || lk.room !== room) return;
-        let remotes = 0;
-        try {
-          remotes = room.remoteParticipants.size;
-        } catch (_) {
-          return;
-        }
-        if (remotes > 0) return;
-        this.showReconnectHint(
-          "No MediMind agent in this room anymore (worker stopped or reconnecting). Press Join voice room again once the worker is running."
-        );
-        this.pushActivity({
-          kind: "_local",
-          detail:
-            "All remote participants left — resetting session. Press Join again after both terminals are healthy.",
-        });
-        this.setState("error", "Agent gone — press Join again");
-        queueMicrotask(() => {
-          if (lk.room === room && !lk.intentionalLeave) lk.leave({ preserveReconnectHint: true });
-        });
-      }, 4500);
-    });
-
     room.on(RoomEvent.TrackSubscribed, (track, pub, participant) => {
-      if (participant && participant !== room.localParticipant) {
-        this.updateJoinedStatus(room);
-      }
       if (track.kind === Track.Kind.Audio) {
         const el = track.attach();
         el.autoplay = true;
@@ -1447,117 +1047,39 @@ const lk = {
       track.detach().forEach(el => el.remove());
     });
     room.on(RoomEvent.ActiveSpeakersChanged, (speakers) => {
+      // Anyone-but-me speaking → pink/blue "speaking"; me speaking → stay "live"
       const remoteSpeaking = speakers.some(p => p !== room.localParticipant);
       if (remoteSpeaking) this.setState("speaking", "MediMind speaking…");
-      else if (this.state === "speaking") this.updateJoinedStatus(room);
+      else if (this.state === "speaking") this.setState("live", "Listening…");
       this.setLevel(Math.min(5, speakers.length * 2));
     });
     room.on(RoomEvent.TranscriptionReceived, (segments, participant) => {
       const who = (participant && participant !== room.localParticipant) ? "agent" : "user";
       segments.forEach(seg => this.addTurn(who, seg.text, !seg.final));
     });
-    room.on(RoomEvent.Disconnected, (reason) => {
-      this.clearAgentWatchdog();
-      this.clearRemoteGoneDebounce();
-      const label = disconnectReasonLabel(reason);
-      if (label) this.pushActivity({ kind: "_local", detail: `Disconnected (${label}).` });
+    room.on(RoomEvent.Disconnected, () => {
       this.setState("idle", "Not connected");
       this.cleanupAudio();
       this.room = null;
     });
 
     try {
-      await withTimeout(
-        room.connect(d.url, d.token, {
-          autoSubscribe: true,
-          maxRetries: 5,
-          websocketTimeout: 25000,
-          peerConnectionTimeout: 45000,
-        }),
-        60_000,
-        "LiveKit connect timed out after 60s — check URL, VPN/firewall, or try Leave → Join."
-      );
-      this.updateJoinedStatus(room);
-      let micOk = false;
-      try {
-        await room.localParticipant.setMicrophoneEnabled(true);
-        micOk = true;
-      } catch (micErr) {
-        this.micBlocked = true;
-        this.pushActivity({
-          kind: "_local",
-          detail: "Microphone error — check browser permissions: " + micErr.message,
-        });
-        this.setState("live", "Mic blocked — allow microphone for this site.");
-      }
-      if (micOk) {
-        try {
-          const micPub = room.localParticipant.getTrackPublication(Track.Source.Microphone);
-          if (!micPub || !micPub.track) {
-            this.pushActivity({
-              kind: "_local",
-              detail: "Microphone enabled but no audio track published yet — check OS mic permission.",
-            });
-          }
-        } catch (_) { /* ignore */ }
-        this.updateJoinedStatus(room);
-        this.pushActivity({
-          kind: "_local",
-          detail:
-            "Your audio is live. When the MediMind agent joins this room, speak naturally; first reply can take a few seconds.",
-        });
-      }
-
-      this.clearAgentWatchdog();
-      this.agentWatchdog = setTimeout(() => {
-        this.agentWatchdog = null;
-        if (!this.room || this.room !== room) return;
-        try {
-          if (this.room.remoteParticipants.size === 0) {
-            this.showReconnectHint(
-              "You're in the LiveKit room but no agent has arrived yet. Start (or restart) the worker: uv run python voice/medimind_agent.py dev — same LIVEKIT_AGENT_NAME as .env — then Leave → Join once."
-            );
-            this.setState("connecting", "No agent in room — check worker & LIVEKIT_AGENT_NAME");
-            this.pushActivity({
-              kind: "_local",
-              detail:
-                "Still no remote participant after ~20s. Cold LiveKit dispatch can be slow; also check only one worker is running and API /livekit/token returns 200.",
-            });
-          }
-        } catch (_) { /* ignore */ }
-      }, 20_000);
+      await room.connect(d.url, d.token);
+      this.setState("live", "Connected — say something");
+      await room.localParticipant.setMicrophoneEnabled(true);
     } catch (e) {
       this.setState("error", "Connect error — " + e.message);
-      this.pushActivity({ kind: "_local", detail: "Connect error — " + e.message });
-      try {
-        await room.disconnect();
-      } catch (_) { /* ignore */ }
+      try { room.disconnect(); } catch (_) {}
       this.room = null;
-      this.cleanupAudio();
-    } finally {
-      this.joining = false;
     }
   },
 
-  async leave(opts = {}) {
-    const preserveReconnectHint = !!opts.preserveReconnectHint;
-    this.intentionalLeave = true;
-    this.clearAgentWatchdog();
-    this.clearRemoteGoneDebounce();
-    if (!this.room) {
-      this.intentionalLeave = false;
-      return;
-    }
-    try {
-      await this.room.disconnect();
-    } catch (_) { /* ignore */ }
+  async leave() {
+    if (!this.room) return;
+    try { await this.room.disconnect(); } catch (_) {}
     this.room = null;
     this.cleanupAudio();
-    this.clearActivity();
-    if (!preserveReconnectHint) this.clearReconnectHint();
     this.setState("idle", "Not connected");
-    this.micBlocked = false;
-    this.intentionalLeave = false;
   },
 
   cleanupAudio() {
