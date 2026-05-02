@@ -429,10 +429,16 @@ class MediMindVoiceAgent(Agent):
     async def on_enter(self) -> None:
         # Speak a fixed greeting (not generate_reply): STT noise hallucinations on connect can
         # otherwise race the LLM and stomp the greeting before TTS plays it.
-        self.session.say(
+        logger.info("[medimind-voice] on_enter -> say greeting")
+        handle = self.session.say(
             "MediMind online. Describe an operational gap and I will check my protocols.",
             allow_interruptions=False,
         )
+        try:
+            await handle.wait_for_playout()
+            logger.info("[medimind-voice] greeting playout finished")
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("[medimind-voice] greeting playout failed: %s", exc)
 
 
 @server.rtc_session(agent_name=LIVEKIT_AGENT_NAME or "")
