@@ -1,8 +1,10 @@
 # Setup and partner Info
 
-## Demo
+## Demo - Click the image below to see video
 
 [![MediMind demo](https://img.youtube.com/vi/Gq2BRdwdMVs/maxresdefault.jpg)](https://youtu.be/Gq2BRdwdMVs)
+
+
 
 MongoDB
 AWS lambda 
