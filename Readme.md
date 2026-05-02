@@ -22,36 +22,6 @@ MediMind is a small rebellion against that pattern. After you confirm a protocol
 MediMind treats memory as infrastructure. Speech rides **LiveKit**; **LangGraph** keeps reasoning alive with checkpoints written to **MongoDB Atlas**. **Atlas Vector Search**, fed by **Voyage** embeddings, finds the nearest matching skill in milliseconds—muscle memory for the ward. When nothing in the library fits, the stack does something bolder: **Fireworks** drafts a new coordination skill, **AWS Lambda** stress-tests it, Atlas stores it, and the next nurse asking the same question gets an instant hit—no redeploy, no midnight engineer—just an agent that gets sharper every time reality throws a curveball.
 
 
-
-MongoDB
-AWS lambda 
-voyage AI
-
-https://github.com/livekit-examples/mongodb-hacker-starter
-https://github.com/livekit/agent-skills
-
-Langchain ecosystem
-
-- deepagents
-- langchain
-- langgraph
-
-
-MongoDB x LangChain
-- Atlas vector search
-- MongDV checkpointer in Langsmits
-- Text to MQL
-
-
----
-Quick Start for Hackathon
-
-- Setup
-- Templates
-- deploy
-- Iterate
-
-
 ## 🧠 Partner Services Overview
 
 ## 🔹 MongoDB Atlas
