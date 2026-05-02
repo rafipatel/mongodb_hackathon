@@ -58,6 +58,21 @@ def _aws_configured() -> bool:
     )
 
 
+def _lambda_score_from_result(result: dict) -> float | None:
+    """Accept direct invoke ``{\"score\": ...}`` or API-Gateway-style ``{\"body\": \"...\"}``."""
+    if "score" in result:
+        return float(result["score"])
+    body = result.get("body")
+    if isinstance(body, str):
+        try:
+            inner = json.loads(body)
+        except json.JSONDecodeError:
+            return None
+        if isinstance(inner, dict) and "score" in inner:
+            return float(inner["score"])
+    return None
+
+
 def _try_lambda_validate(code: str) -> float | None:
     """Try the AWS Lambda validator. Return None if it can't run so caller falls back."""
     if not _aws_configured():
@@ -71,7 +86,14 @@ def _try_lambda_validate(code: str) -> float | None:
             Payload=json.dumps(payload).encode(),
         )
         result = json.loads(response["Payload"].read())
-        return float(result.get("score", 0.0))
+        score = _lambda_score_from_result(result)
+        if score is None:
+            print(
+                "[validator] Lambda response had no score "
+                "(handler should return JSON {\"score\": <float>}); using local fallback."
+            )
+            return None
+        return score
     except Exception as exc:  # noqa: BLE001
         print(f"[validator] Lambda invoke failed, falling back to local: {exc}")
         return None
