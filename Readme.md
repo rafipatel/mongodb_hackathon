@@ -2,7 +2,7 @@
 
 ## Demo
 
-[![MediMind demo](https://img.youtube.com/vi/aC5NmQb3WCY/maxresdefault.jpg)](https://youtu.be/aC5NmQb3WCY)
+[![MediMind demo](https://img.youtube.com/vi/Gq2BRdwdMVs/maxresdefault.jpg)](https://youtu.be/Gq2BRdwdMVs)
 
 MongoDB
 AWS lambda 
